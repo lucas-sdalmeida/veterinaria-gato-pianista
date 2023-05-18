@@ -11,7 +11,7 @@
             $this->cpfNumber = $cpfNumber;
         }
 
-        private static function of(string $cpfNumber) : CPF {
+        public static function of(string $cpfNumber) : CPF {
             if (!static::isValidCPFNumber($cpfNumber))
                 throw new DomainException("The value <$cpfNumber> is not a valid CPF!");
             if (!key_exists($cpfNumber, static::$instances));
