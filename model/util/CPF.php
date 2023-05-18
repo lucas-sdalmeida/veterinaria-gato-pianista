@@ -1,4 +1,8 @@
 <?php
+    namespace model\util;
+
+    use DomainException;
+
     final class CPF {
         private static array $instances = [];
         private readonly string $cpfNumber;
