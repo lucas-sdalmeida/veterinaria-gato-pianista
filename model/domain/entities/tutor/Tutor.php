@@ -3,7 +3,7 @@
 
     use DateTime;
     use DateTimeZone;
-    use model\util\CPF;
+    use php\util\CPF;
     use model\util\IllegalOperationException;
 
     class Tutor {

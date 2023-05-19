@@ -1,5 +1,5 @@
 <?php
-    namespace model\util;
+    namespace php\util;
 
     use DomainException;
 
