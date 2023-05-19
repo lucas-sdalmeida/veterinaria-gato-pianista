@@ -1,5 +1,5 @@
 <?php
-    namespace model\util;
+    namespace domain\util;
 
     use BadFunctionCallException;
 

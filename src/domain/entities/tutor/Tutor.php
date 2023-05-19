@@ -4,7 +4,7 @@
     use DateTime;
     use DateTimeZone;
     use php\util\CPF;
-    use model\util\IllegalOperationException;
+    use domain\util\IllegalOperationException;
 
     class Tutor {
         private readonly ?int $id;
