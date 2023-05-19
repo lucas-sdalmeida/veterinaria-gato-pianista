@@ -11,6 +11,10 @@
             $this->cpfNumber = $cpfNumber;
         }
 
+        public function getCPFNumber() : string {
+            return $this->cpfNumber;
+        }
+
         public static function of(string $cpfNumber) : CPF {
             if (!static::isValidCPFNumber($cpfNumber))
                 throw new DomainException("The value <$cpfNumber> is not a valid CPF!");
