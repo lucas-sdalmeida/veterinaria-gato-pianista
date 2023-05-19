@@ -1,5 +1,5 @@
 <?php
-    namespace model\domain\entities\tutor;
+    namespace domain\entities\tutor;
 
     use DateTime;
     use DateTimeZone;
