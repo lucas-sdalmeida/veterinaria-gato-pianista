@@ -21,11 +21,11 @@
                                             new DateTimeZone("America/Sao_Paulo"));
         }
 
-        public function getId() : ?int {
+        public final function getId() : ?int {
             return $this->id;
         }
 
-        public function setId(int $id) {
+        public final function setId(int $id) {
             if ($this->id !== null)
                 throw new IllegalOperationException(
                     "The tutor id cannot be changed once set!"
@@ -33,19 +33,19 @@
             return $this->id;
         }
 
-        public function getName() : string {
+        public final function getName() : string {
             return $this->name;
         }
 
-        public function getCPF() : CPF {
+        public final function getCPF() : CPF {
             return $this->cpf;
         }
 
-        public function getPhoneNumber() : string {
+        public final function getPhoneNumber() : string {
             return $this->phoneNumber;
         }
 
-        public function getRegistrationDateTime() : DateTime {
+        public final function getRegistrationDateTime() : DateTime {
             return $this->registrationDateTime;
         }
     }
