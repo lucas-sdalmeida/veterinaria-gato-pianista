@@ -7,7 +7,7 @@
     use domain\util\IllegalOperationException;
 
     class Tutor {
-        private readonly ?int $id;
+        private ?int $id = null;
         private readonly string $name;
         private readonly CPF $cpf;
         private readonly string $phoneNumber;
