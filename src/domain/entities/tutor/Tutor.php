@@ -1,7 +1,6 @@
 <?php
     namespace domain\entities\tutor;
 
-    use DateTime;
     use DateTimeImmutable;
     use php\util\CPF;
     use domain\util\IllegalOperationException;
@@ -12,16 +11,16 @@
         private readonly CPF $cpf;
         private readonly string $phoneNumber;
         private readonly DateTimeImmutable $dateOfBirth;
-        private readonly DateTime $registrationDateTime;
+        private readonly DateTimeImmutable $registrationDateTime;
 
         public function __construct(string $name, string|CPF $cpf, string $phoneNumber,
                                     DateTimeImmutable $dateOfBirth, 
-                                    ?DateTime $registrationDateTime=null) {
+                                    ?DateTimeImmutable $registrationDateTime=null) {
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->phoneNumber = $phoneNumber;
             $this->dateOfBirth = $dateOfBirth;
-            $this->registrationDateTime = $registrationDateTime == null ? new DateTime() : 
+            $this->registrationDateTime = $registrationDateTime == null ? new DateTimeImmutable() : 
                                             $registrationDateTime;
         }
 
@@ -60,7 +59,7 @@
             return $this->dateOfBirth;
         }
 
-        public final function getRegistrationDateTime() : DateTime {
+        public final function getRegistrationDateTime() : DateTimeImmutable {
             return $this->registrationDateTime;
         }
     }
