@@ -1,6 +1,7 @@
 <?php
     namespace domain\entities\animal;
 
+    use domain\entities\tutor\Tutor;
     use DateTime;
     use DomainException;
 
@@ -9,15 +10,18 @@
         private readonly string $name;
         private readonly string $specie;
         private ?string $race;
+        private readonly Tutor $tutor;
         private readonly DateTime $dateOfBirth;
         private readonly DateTime $registryDate;
 
-        public function __construct(string $name, string $specie, DateTime $dateOfBirth, 
-                                    ?DateTime $registryDate=null, ?string $race=null) {
+        public function __construct(string $name, string $specie, Tutor $tutor,
+                                    DateTime $dateOfBirth, ?DateTime $registryDate=null, 
+                                    ?string $race=null) {
             $this->name = $name;
             $this->specie = $specie;
             $this->dateOfBirth = $dateOfBirth;
             $this->race = $race;
+            $this->tutor = $tutor;
             $this->registryDate = $registryDate != null ? $registryDate : new DateTime();
         }
 
