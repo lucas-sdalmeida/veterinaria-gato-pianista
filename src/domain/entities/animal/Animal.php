@@ -56,6 +56,10 @@
             $this->race = $race;
         }
 
+        public final function getTutor() : tutor {
+            return $this->tutor;
+        }
+
         public final function getAge() : int {
             $currentYear = intval((new DateTimeImmutable())->format("yyyy"));
             $yearOfBirth = intval($this->dateOfBirth->format("yyyy"));
