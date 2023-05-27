@@ -20,8 +20,7 @@
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->phoneNumber = $phoneNumber;
             $this->dateOfBirth = $dateOfBirth;
-            $this->registrationDate = $registrationDate == null ? new DateTimeImmutable() : 
-                                            $registrationDate;
+            $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
         }
 
         public final function getId() : ?int {

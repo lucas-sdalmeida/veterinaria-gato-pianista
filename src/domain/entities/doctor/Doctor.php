@@ -26,8 +26,7 @@
             $this->phoneNumber = $phoneNumber;
             $this->dateOfBirth = $dateOfBirth;
             $this->hiringDate = $hiringDate;
-            $this->$registrationDate = $registrationDate != null ? $registrationDate :
-                                        new DateTimeImmutable();
+            $this->$registrationDate = $registrationDate ?? new DateTimeImmutable();
         }
 
         public final function getId() : int {

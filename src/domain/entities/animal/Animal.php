@@ -23,8 +23,7 @@
             $this->dateOfBirth = $dateOfBirth;
             $this->race = $race;
             $this->tutor = $tutor;
-            $this->registrationDate = $registrationDate != null ? $registrationDate : 
-                                        new DateTimeImmutable();
+            $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
         }
 
         public final function getId() : ?int {
