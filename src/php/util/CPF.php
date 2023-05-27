@@ -24,7 +24,7 @@
         }
 
         private static function isValidCPFNumber(string $cpfNumber) : bool {
-            return preg_match('/^\d{3}(.?\d{3})-?\d{2}$/', $cpfNumber) > 0;
+            return preg_match('/^\d{3}(.?\d{3}){2}-?\d{2}$/', $cpfNumber) > 0;
         }
 
         public function __toString() : string {
