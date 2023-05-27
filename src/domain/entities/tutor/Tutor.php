@@ -27,12 +27,12 @@
             return $this->id;
         }
 
-        public final function setId(int $id) {
+        public final function setId(int $id) : void {
             if ($this->id !== null)
                 throw new IllegalOperationException(
                     "The tutor id cannot be changed once set!"
                 );
-            return $this->id;
+            $this->id = $id;
         }
 
         public final function getName() : string {

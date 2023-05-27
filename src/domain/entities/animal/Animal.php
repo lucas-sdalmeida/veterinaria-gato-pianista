@@ -30,7 +30,7 @@
             return $this->id;
         }
 
-        public final function setId(int $id) {
+        public final function setId(int $id) : void {
             if ($this->id != null)
                 throw new IllegalOperationException(
                     "This animal already has an id, which is <" . $this->id . ">"
@@ -51,7 +51,7 @@
             return $this->race;
         }
 
-        public final function setRace(string $race) {
+        public final function setRace(string $race) : void {
             $this->race = $race;
         }
 

@@ -33,7 +33,7 @@
             return $this->id;
         }
 
-        public final function setId(int $id) {
+        public final function setId(int $id) : void {
             if ($this->id != null)
                 throw new IllegalOperationException("Unable to change id once set!");
             $this->id = $id;
