@@ -60,8 +60,8 @@
         }
 
         public final function getAge() : int {
-            $currentYear = intval((new DateTimeImmutable())->format("yyyy"));
-            $yearOfBirth = intval($this->dateOfBirth->format("yyyy"));
+            $currentYear = intval((new DateTimeImmutable())->format("Y"));
+            $yearOfBirth = intval($this->dateOfBirth->format("Y"));
 
             return $currentYear - $yearOfBirth;
         }
