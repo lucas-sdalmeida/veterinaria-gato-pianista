@@ -1,0 +1,18 @@
+{
+    "name": "lucas/clinica-veterinaria-gato-pianista",
+    "type": "project",
+    "require": {
+        "firebase/php-jwt": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lucas\\ClinicaVeterinariaGatoPianista\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "lucas-sdalmeida",
+            "email": "lucas.lucas.sa@hotmail.com"
+        }
+    ]
+}
