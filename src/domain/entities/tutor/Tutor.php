@@ -1,9 +1,9 @@
 <?php
-    namespace domain\entities\tutor;
+    namespace pw2s3\clinicaveterinaria\domain\entities\tutor;
 
     use DateTimeImmutable;
-    use php\util\CPF;
-    use domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\php\util\CPF;
+    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
 
     class Tutor {
         private ?int $id = null;
@@ -60,6 +60,10 @@
 
         public final function getRegistrationDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public function __toString() : string {
+            return $this->name . ", " . $this->getAge() . ", " . $this->cpf;
         }
     }
 ?>

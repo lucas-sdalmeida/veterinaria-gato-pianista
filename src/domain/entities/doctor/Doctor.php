@@ -1,9 +1,9 @@
 <?php
-    namespace domain\entities\doctor;
+    namespace pw2s3\clinicaveterinaria\domain\entities\doctor;
 
-    use php\util\CPF;
-    use php\util\CRMV;
-    use domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\php\util\CPF;
+    use pw2s3\clinicaveterinaria\php\util\CRMV;
+    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
     use DateTimeImmutable;
 
     class Doctor {
@@ -72,6 +72,11 @@
 
         public final function getRegistrationDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public function __toString() : string {
+            return $this->name . ", " . $this->getAge() . ", " . $this->cpf . ", " . 
+                    $this->crmv;
         }
     }
 ?>

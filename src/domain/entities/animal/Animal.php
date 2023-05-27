@@ -1,8 +1,8 @@
 <?php
-    namespace domain\entities\animal;
+    namespace pw2s3\clinicaveterinaria\domain\entities\animal;
 
-    use domain\entities\tutor\Tutor;
-    use domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
+    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
     use DateTimeImmutable;
 
     class Animal {
@@ -72,6 +72,11 @@
 
         public final function getRegistryDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public function __toString() : string {
+            return "Animal: " . $this->name . ", " . $this->specie . ", " .
+                    $this->race . ", age: " . $this->getAge();
         }
     }
 ?>

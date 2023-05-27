@@ -1,5 +1,5 @@
 <?php
-    namespace domain\util;
+    namespace pw2s3\clinicaveterinaria\domain\util;
 
     use BadFunctionCallException;
 

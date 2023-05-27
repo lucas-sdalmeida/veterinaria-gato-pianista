@@ -1,7 +1,7 @@
 <?php
-    namespace php\util;
+    namespace pw2s3\clinicaveterinaria\php\util;
 
-use DomainException;
+    use DomainException;
 
     final class CRMV {
         private static array $instances = [];
@@ -24,6 +24,10 @@ use DomainException;
         }
 
         public final function getInscriptionCode() : string {
+            return $this->inscriptionCode;
+        }
+
+        public function __toString() : string {
             return $this->inscriptionCode;
         }
     }

@@ -6,7 +6,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Lucas\\ClinicaVeterinariaGatoPianista\\": "src/"
+            "pw2s3\\clinicaveterinaria\\": "src/"
         }
     },
     "authors": [

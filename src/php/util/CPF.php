@@ -1,5 +1,5 @@
 <?php
-    namespace php\util;
+    namespace pw2s3\clinicaveterinaria\php\util;
 
     use DomainException;
 
@@ -25,6 +25,10 @@
 
         private static function isValidCPFNumber(string $cpfNumber) : bool {
             return preg_match('/^\d{3}(.?\d{3})-?\d{2}$/', $cpfNumber) > 0;
+        }
+
+        public function __toString() : string {
+            return $this->cpfNumber;
         }
     }
 ?>
