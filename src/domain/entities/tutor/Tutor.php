@@ -11,17 +11,17 @@
         private readonly CPF $cpf;
         private readonly string $phoneNumber;
         private readonly DateTimeImmutable $dateOfBirth;
-        private readonly DateTimeImmutable $registrationDateTime;
+        private readonly DateTimeImmutable $registrationDate;
 
         public function __construct(string $name, string|CPF $cpf, string $phoneNumber,
                                     DateTimeImmutable $dateOfBirth, 
-                                    ?DateTimeImmutable $registrationDateTime=null) {
+                                    ?DateTimeImmutable $registrationDate=null) {
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->phoneNumber = $phoneNumber;
             $this->dateOfBirth = $dateOfBirth;
-            $this->registrationDateTime = $registrationDateTime == null ? new DateTimeImmutable() : 
-                                            $registrationDateTime;
+            $this->registrationDate = $registrationDate == null ? new DateTimeImmutable() : 
+                                            $registrationDate;
         }
 
         public final function getId() : ?int {
@@ -59,8 +59,8 @@
             return $this->dateOfBirth;
         }
 
-        public final function getRegistrationDateTime() : DateTimeImmutable {
-            return $this->registrationDateTime;
+        public final function getRegistrationDate() : DateTimeImmutable {
+            return $this->registrationDate;
         }
     }
 ?>
