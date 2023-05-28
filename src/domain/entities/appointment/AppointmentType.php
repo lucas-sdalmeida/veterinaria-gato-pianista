@@ -4,8 +4,8 @@
     use InvalidArgumentException;
 
     enum AppointmentType : string {
-        case Examination = "Examination";
-        case Surgery = "Surgery";
+        case EXAMINATION = "Examination";
+        case SURGERY = "Surgery";
 
         public function fromString(string $type) : AppointmentType {
             foreach (static::cases() as $case)
