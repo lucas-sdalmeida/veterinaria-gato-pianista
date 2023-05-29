@@ -1,8 +1,8 @@
 <?php
     namespace pw2s3\clinicaveterinaria\domain\entities\doctor;
 
-    use pw2s3\clinicaveterinaria\php\util\CPF;
-    use pw2s3\clinicaveterinaria\php\util\CRMV;
+    use pw2s3\clinicaveterinaria\util\CPF;
+    use pw2s3\clinicaveterinaria\util\CRMV;
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
     use DateTimeImmutable;
 

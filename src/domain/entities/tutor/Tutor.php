@@ -2,7 +2,7 @@
     namespace pw2s3\clinicaveterinaria\domain\entities\tutor;
 
     use DateTimeImmutable;
-    use pw2s3\clinicaveterinaria\php\util\CPF;
+    use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
 
     class Tutor {

@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\php\util;
+    namespace pw2s3\clinicaveterinaria\util;
 
     use DomainException;
 
