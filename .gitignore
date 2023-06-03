@@ -1,1 +1,5 @@
+### Composer ###
 /vendor/
+
+### Application Resources ###
+src/resources/mysql-db-access-data.json
