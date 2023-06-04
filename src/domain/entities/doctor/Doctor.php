@@ -3,46 +3,46 @@
 
     use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\util\CRMV;
-    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
     use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
+    use DomainException;
 
     class Doctor {
-        private ?int $id = null;
-        private readonly string $name;
+        private ?int $id;
+        private  string $name;
         private readonly CPF $cpf;
         private readonly CRMV $crmv;
-        private readonly string $phoneNumber;
-        private readonly DateTimeImmutable $dateOfBirth;
-        private readonly DateTimeImmutable $hiringDate;
+        private string $phoneNumber;
+        private DateTimeImmutable $dateOfBirth;
+        private DateTimeImmutable $hiringDate;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
 
         public function __construct(string $name, string|CPF $cpf, string|CRMV $crmv,string $phoneNumber, 
                                     DateTimeImmutable $dateOfBirth, DateTimeImmutable $hiringDate, 
-                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
+                                    ?int $id=null) {
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->crmv = is_string($cpf) ? CRMV::of($crmv) : $crmv;
             $this->phoneNumber = $phoneNumber;
-            $this->dateOfBirth = $dateOfBirth;
+            $this->setDateOfBirth($dateOfBirth);
             $this->hiringDate = $hiringDate;
             $this->$registrationDate = $registrationDate ?? new DateTimeImmutable();
             $this->status = $status ?? RegistrationStatus::ACTIVE;
+            $this->id = $id;
         }
 
         public final function getId() : int {
             return $this->id;
         }
 
-        public final function setId(int $id) : void {
-            if ($this->id != null)
-                throw new IllegalOperationException("Unable to change id once set!");
-            $this->id = $id;
-        }
-
         public final function getName() : string {
             return $this->name;
+        }
+
+        public final function setName(string $name) : void {
+            $this->name = $name;
         }
 
         public final function getCPF() : CPF {
@@ -57,19 +57,46 @@
             return $this->phoneNumber;
         }
 
-        public final function getAge() : int {
-            $currentYear = intval((new DateTimeImmutable())->format("Y"));
-            $yearOfBirth = intval($this->dateOfBirth->format("Y"));
+        public final function setPhoneNumber(string $phoneNumber) : void {
+            $this->phoneNumber = $phoneNumber;
+        }
 
-            return $currentYear - $yearOfBirth;
+        public final function getAge() : int {
+            $today = new DateTimeImmutable();
+            $intervalBetweenDateOfBirthAndToday = $today->diff($this->dateOfBirth);
+
+            return $intervalBetweenDateOfBirthAndToday->y;
         }
 
         public final function getDateOfBirth() : DateTimeImmutable {
             return $this->dateOfBirth;
         }
 
+        public final function setDateOfBirth(DateTimeImmutable $dateOfBirth) : void {
+            $today = new DateTimeImmutable();
+
+            if ($dateOfBirth > $today)
+                throw new DomainException("It is impossible a doctor to be born after today!");
+
+            $interval = $today->diff($dateOfBirth);
+
+            if ($interval->y < 18)
+                throw new DomainException("A doctor must be of legal age!");
+
+            $this->dateOfBirth = $dateOfBirth;
+        }
+
         public final function getHiringDate() : DateTimeImmutable {
             return $this->hiringDate;
+        }
+
+        public final function setHiringDate(DateTimeImmutable $hiringDate) : void {
+            $intervalBetweenDateOfBirth = $hiringDate->diff($this->dateOfBirth);
+
+            if ($intervalBetweenDateOfBirth->y > $this->getAge())
+                throw new DomainException("Cannot hire someone before they are born!");
+
+            $this->hiringDate = $hiringDate;
         }
 
         public final function getRegistrationDate() : DateTimeImmutable {
