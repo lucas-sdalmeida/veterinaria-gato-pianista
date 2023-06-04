@@ -7,7 +7,7 @@
         case EXAMINATION = "Examination";
         case SURGERY = "Surgery";
 
-        public function fromString(string $type) : AppointmentType {
+        public static function fromString(string $type) : AppointmentType {
             foreach (static::cases() as $case)
                 if (strtolower($case->value) === strtolower($type)) return $case;
             
