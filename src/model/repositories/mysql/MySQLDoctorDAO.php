@@ -6,6 +6,7 @@
     use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\util\CRMV;
     use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
     use InvalidArgumentException;
     use PDOException;
@@ -42,15 +43,16 @@
             $doctor = new Doctor($entry["name"], $entry["cpf"], $entry["crmv"], $entry["phone_number"], 
                                     DateTimeImmutable::createFromFormat("Y-m-d", $entry["date_of_birth"]), 
                                     DateTimeImmutable::createFromFormat("Y-m-d", $entry["hiring_date"]), 
-                                    DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]));
-            $doctor->setId($entry["id"]);
+                                    DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]),
+                                    RegistrationStatus::from($entry["status"]), $entry["id"]
+                                );
 
             return $doctor;
         }
 
         public function findOneByKey(mixed $key) : mixed {
-            $sql = "SELECT id, name, cpf, Crmv, phone_number, date_of_birth, hiring_date, registration_date FROM " .
-                    "doctor WHERE id = :id";
+            $sql = "SELECT id, name, cpf, Crmv, phone_number, date_of_birth, hiring_date, registration_date, status " . 
+                    "FROM doctor WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -70,8 +72,8 @@
         }
 
         public function findOneByCPF(CPF $cpf) : mixed {
-            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date FROM " .
-                    "doctor WHERE cpf = :cpf";
+            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date, status " .
+                    "FROM doctor WHERE cpf = :cpf";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -91,8 +93,8 @@
         }
 
         public function findOneByCRMV(CRMV $crmv) : mixed {
-            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date FROM " .
-                    "doctor WHERE cpf = :cpf";
+            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date, status " . 
+                    "FROM doctor WHERE cpf = :cpf";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -112,7 +114,8 @@
         }
 
         public function findAll() : array {
-            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date FROM doctor";
+            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date, status " . 
+                    "FROM doctor";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -141,7 +144,7 @@
                 throw new InvalidArgumentException("Entity must be a Doctor!");
 
             $sql = "UPDATE doctor SET name = :name, phone_number = :phone_number, hiring_date = :hiring_date, " . 
-                    "date_of_birth = :date_of birth WHERE id = :id";
+                    "date_of_birth = :date_of birth, status = :status WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -151,6 +154,7 @@
                     "phone_number" => $entity->getPhoneNumber(),
                     "hiring_date" => $entity->getHiring()->format("Y-m-d"),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
+                    "status" => $entity->getStatus(),
                     "id" => $entity->getId()
                 ]);
             }
