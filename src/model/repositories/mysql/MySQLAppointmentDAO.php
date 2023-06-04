@@ -6,23 +6,20 @@
     use pw2s3\clinicaveterinaria\domain\entities\doctor\Doctor;
     use pw2s3\clinicaveterinaria\domain\entities\animal\Animal;
     use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
-    use pw2s3\clinicaveterinaria\util\CPF;
+    use pw2s3\clinicaveterinaria\domain\entities\appointment\AppointmentType;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use InvalidArgumentException;
     use PDOException;
     use Exception;
     use DateTimeImmutable;
-use pw2s3\clinicaveterinaria\domain\entities\appointment\AppointmentType;
 
     final class MySQLAppointmentDAO implements DAO {
         public function insert(mixed $entity) : void {
             if (!static::isAVeterinarianAppointment($entity))
-                throw new InvalidArgumentException(
-                    "The entity must be a Veterinarian Appointment!"
-                );
+                throw new InvalidArgumentException("The entity must be a Veterinarian Appointment!");
 
-            $sql = "INSERT INTO appointment(animal_id, doctor_id, type, reason, " . 
-                    "start_datetime) VALUES (:animal_id, :doctor_id, :type, :reason, " . 
-                    ":start_datetime)";
+            $sql = "INSERT INTO appointment(animal_id, doctor_id, type, reason, start_datetime) VALUES " . 
+                    "(:animal_id, :doctor_id, :type, :reason, :start_datetime)";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -48,8 +45,7 @@ use pw2s3\clinicaveterinaria\domain\entities\appointment\AppointmentType;
                                 $entry["reason"], 
                                 DateTimeImmutable::createFromFormat('Y-m-d H:i:s' , $entry["start_datetime"]), 
                                 DateTimeImmutable::createFromFormat("Y-m-d H:i:s", $entry["end_datetime"]),
-                                $entry["action"]);
-            $appointment->setId($entry["id"]);
+                                $entry["action"], $entry["id"]);
 
             return $appointment;
         }
