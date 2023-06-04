@@ -9,15 +9,15 @@
     use InvalidArgumentException;
     use PDOException;
     use Exception;
+use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
 
     final class MySQLAnimalDAO implements DAO {
         public function insert(mixed $entity) : void {
             if (!static::isAnAnimal($entity))
-                throw new InvalidArgumentException("The entity must be an animal!");
+                throw new InvalidArgumentException("The entity must be an Animal!");
 
-            $sql = "INSERT INTO animal(name, specie, race, tutor_id, date_of_birth, " .
-                    "registration_date) VALUES (:name, :specie, :race, :tutor, " . 
-                    ":date_of_birth, :registration_date)";
+            $sql = "INSERT INTO animal(name, specie, race, tutor_id, date_of_birth, registration_date) VALUES " . 
+                    "(:name, :specie, :race, :tutor, :date_of_birth, :registration_date)";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -42,15 +42,14 @@
             $animal = new Animal($entry["name"], $entry["specie"], $tutor, 
                                  DateTimeImmutable::createFromFormat("Y-m-d", $entry["date_of_birth"]), 
                                  DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]), 
-                                 $entry["race"]);
-            $animal->setId($entry["id"]);
+                                 RegistrationStatus::from($entry["status"]), $entry["race"], $entry["id"]);
 
             return $animal;
         }
 
         public function findOneByKey(mixed $key) : mixed {
-            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date FROM " .
-                    "animal WHERE id = :id";
+            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date, status FROM animal " . 
+                    "WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -70,8 +69,8 @@
         }
 
         public function findOneByNameAndTutor(string $name, Tutor $tutor) : mixed {
-            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date FROM " .
-                    "animal WHERE name = :name AND tutor_id = :tutor_id";
+            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date, status FROM animal " . 
+                    "WHERE name = :name AND tutor_id = :tutor_id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -91,7 +90,7 @@
         }
 
         public function findAll() : array {
-            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date FROM animal";
+            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date, status FROM animal";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -119,8 +118,8 @@
             if (!static::isAnAnimal($entity))
                 throw new InvalidArgumentException("Entity must be a Animal!");
 
-            $sql = "UPDATE animal SET name = :name, specie = :specie, race = :race, " . 
-                    "date_of_birth = :date_of birth WHERE id = :id";
+            $sql = "UPDATE animal SET name = :name, specie = :specie, race = :race, date_of_birth = :date_of birth, " . 
+                    "status = :status WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -130,6 +129,7 @@
                     "specie" => $entity->getSpecie(),
                     "race" => $entity->getRace(),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
+                    "status" => $entity->getStatus(),
                     "id" => $entity->getId()
                 ]);
             }
