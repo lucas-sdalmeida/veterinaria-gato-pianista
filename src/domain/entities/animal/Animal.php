@@ -3,6 +3,7 @@
 
     use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
 
     class Animal {
@@ -13,10 +14,10 @@
         private readonly Tutor $tutor;
         private readonly DateTimeImmutable $dateOfBirth;
         private readonly DateTimeImmutable $registrationDate;
+        private RegistrationStatus $status;
 
-        public function __construct(string $name, string $specie, Tutor $tutor,
-                                    DateTimeImmutable $dateOfBirth, 
-                                    ?DateTimeImmutable $registrationDate=null, 
+        public function __construct(string $name, string $specie, Tutor $tutor, DateTimeImmutable $dateOfBirth, 
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
                                     ?string $race=null) {
             $this->name = $name;
             $this->specie = $specie;
@@ -24,6 +25,7 @@
             $this->race = $race;
             $this->tutor = $tutor;
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
+            $this->status = $status ?? RegistrationStatus::ACTIVE;
         }
 
         public final function getId() : ?int {
@@ -72,6 +74,14 @@
 
         public final function getRegistryDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public final function getStatus() : RegistrationStatus {
+            return $this->status;
+        }
+
+        public final function setStatus(RegistrationStatus $status) : void {
+            $this->status = $status;
         }
 
         public function __toString() : string {

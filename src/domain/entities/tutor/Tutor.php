@@ -4,6 +4,7 @@
     use DateTimeImmutable;
     use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
 
     class Tutor {
         private ?int $id = null;
@@ -12,15 +13,16 @@
         private readonly string $phoneNumber;
         private readonly DateTimeImmutable $dateOfBirth;
         private readonly DateTimeImmutable $registrationDate;
+        private RegistrationStatus $status;
 
-        public function __construct(string $name, string|CPF $cpf, string $phoneNumber,
-                                    DateTimeImmutable $dateOfBirth, 
-                                    ?DateTimeImmutable $registrationDate=null) {
+        public function __construct(string $name, string|CPF $cpf, string $phoneNumber, DateTimeImmutable $dateOfBirth, 
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->phoneNumber = $phoneNumber;
             $this->dateOfBirth = $dateOfBirth;
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
+            $this->status = $status ?? RegistrationStatus::ACTIVE;
         }
 
         public final function getId() : ?int {
@@ -60,6 +62,14 @@
 
         public final function getRegistrationDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public final function getStatus() : RegistrationStatus {
+            return $this->status;
+        }
+
+        public final function setStatus(RegistrationStatus $status) : void {
+            $this->status = $status;
         }
 
         public function __toString() : string {

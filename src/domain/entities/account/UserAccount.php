@@ -2,6 +2,7 @@
     namespace pw2s3\clinicaveterinaria\domain\entities\account;
 
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
 
     class UserAccount {
@@ -10,13 +11,15 @@
         private readonly string $password;
         private readonly UserRole $role;
         private readonly DateTimeImmutable $registrationDate;
+        private RegistrationStatus $status;
 
         public function __construct(string $username, string $password, UserRole $role,
-                                    ?DateTimeImmutable $registrationDate=null) {
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
             $this->username = $username;
             $this->setPassword($password);
             $this->role = $role;
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
+            $this->status = $status ?? RegistrationStatus::ACTIVE;
         }
 
         public final function hasGreaterOrEqualAccessLevelThan(UserAccount $other) : bool {

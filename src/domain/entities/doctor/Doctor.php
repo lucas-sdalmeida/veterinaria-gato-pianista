@@ -4,6 +4,7 @@
     use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\util\CRMV;
     use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
 
     class Doctor {
@@ -15,11 +16,11 @@
         private readonly DateTimeImmutable $dateOfBirth;
         private readonly DateTimeImmutable $hiringDate;
         private readonly DateTimeImmutable $registrationDate;
+        private RegistrationStatus $status;
 
-        public function __construct(string $name, string|CPF $cpf, string|CRMV $crmv,
-                                    string $phoneNumber, DateTimeImmutable $dateOfBirth,
-                                    DateTimeImmutable $hiringDate, 
-                                    ?DateTimeImmutable $registrationDate=null) {
+        public function __construct(string $name, string|CPF $cpf, string|CRMV $crmv,string $phoneNumber, 
+                                    DateTimeImmutable $dateOfBirth, DateTimeImmutable $hiringDate, 
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->crmv = is_string($cpf) ? CRMV::of($crmv) : $crmv;
@@ -27,6 +28,7 @@
             $this->dateOfBirth = $dateOfBirth;
             $this->hiringDate = $hiringDate;
             $this->$registrationDate = $registrationDate ?? new DateTimeImmutable();
+            $this->status = $status ?? RegistrationStatus::ACTIVE;
         }
 
         public final function getId() : int {
@@ -72,6 +74,14 @@
 
         public final function getRegistrationDate() : DateTimeImmutable {
             return $this->registrationDate;
+        }
+
+        public final function getStatus() : RegistrationStatus {
+            return $this->status;
+        }
+
+        public final function setStatus(RegistrationStatus $status) : void {
+            $this->status = $status;
         }
 
         public function __toString() : string {
