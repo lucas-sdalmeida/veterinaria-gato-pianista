@@ -5,6 +5,7 @@
     use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
     use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
     use pw2s3\clinicaveterinaria\util\CPF;
+    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use InvalidArgumentException;
     use PDOException;
     use Exception;
@@ -13,11 +14,10 @@
     final class MySQLTutorDAO implements DAO {
         public function insert(mixed $entity) : void {
             if (!static::isATutor($entity))
-                throw new InvalidArgumentException("The entity must be a tutor!");
+                throw new InvalidArgumentException("The entity must be a Tutor!");
 
-            $sql = "INSERT INTO tutor(name, cpf, phone_number, date_of_birth, " .
-                    "registration_date) VALUES (:name, :cpf, :phone_number, " . 
-                    ":date_of_birth, :registration_date)";
+            $sql = "INSERT INTO tutor(name, cpf, phone_number, date_of_birth, registration_date, status) VALUES " . 
+                    "(:name, :cpf, :phone_number, :date_of_birth, :registration_date, :status)";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -27,7 +27,8 @@
                     "cpf" => $entity->getCPF()->getCPFNumber(),
                     "phone_number" => $entity->getPhoneNumber(),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
-                    "registration_date" => $entity->getRegistrationDate()->format("Y-m-d")
+                    "registration_date" => $entity->getRegistrationDate()->format("Y-m-d"),
+                    "status" => $entity->getStatus()
                 ]);
             }
             catch (PDOException $error) {
@@ -38,15 +39,15 @@
         private static function entryToEntity(array $entry) : mixed {
             $tutor = new Tutor($entry["name"], $entry["cpf"], $entry["phoneNumber"], 
                                 DateTimeImmutable::createFromFormat('Y-m-d' , $entry["date_of_birth"]), 
-                                DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]));
-            $tutor->setId($entry["id"]);
-
+                                DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]),
+                                RegistrationStatus::from($entry["status"]), $entry["id"]
+                            );
             return $tutor;
         }
 
         public function findOneByKey(mixed $key) : mixed {
-            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date FROM " .
-                    "tutor WHERE id = :id";
+            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date, status FROM tutor WHERE " . 
+                    "id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -66,8 +67,8 @@
         }
 
         public function findOneByCPF(CPF $cpf) : mixed {
-            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date FROM " .
-                    "tutor WHERE cpf = :cpf";
+            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date, status FROM tutor WHERE " . 
+                    "cpf = :cpf";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -87,8 +88,7 @@
         }
 
         public function findAll() : array {
-            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date FROM " .
-                    "tutor";
+            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date, status FROM tutor";
             $connectionFactory = new SingletonMySQLConnectionFactory();
             
             try {
@@ -116,8 +116,8 @@
             if (!static::isATutor($entity))
                 throw new InvalidArgumentException("Entity must be a Tutor");
 
-            $sql = "UPDATE tutor SET name = :name, phone_number = :phone_number, " . 
-                    "date_of_birth = :date_of birth WHERE id = :id";
+            $sql = "UPDATE tutor SET name = :name, phone_number = :phone_number, date_of_birth = :date_of birth, " . 
+                    "status = :status WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
             try {
@@ -126,6 +126,7 @@
                     "name"  => $entity->getName(),
                     "phone_number" => $entity->getPhoneNumber(),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
+                    "status" => $entity->getStatus(),
                     "id" => $entity->getId()
                 ]);
             }
