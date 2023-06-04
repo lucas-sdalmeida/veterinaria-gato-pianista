@@ -61,5 +61,13 @@
         public final function getRegistrationDate() : DateTimeImmutable {
             return $this->registrationDate;
         }
+
+        public final function getStatus() : RegistrationStatus {
+            return $this->status;
+        }
+
+        public final function setStatus(RegistrationStatus $status) : void {
+            $this->status = $status;
+        }
     }
 ?>
