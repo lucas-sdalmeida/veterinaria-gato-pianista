@@ -4,24 +4,24 @@
     use pw2s3\clinicaveterinaria\domain\entities\animal\Animal;
     use pw2s3\clinicaveterinaria\domain\entities\doctor\Doctor;
     use pw2s3\clinicaveterinaria\domain\entities\appointment\AppointmentType;
-    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
     use DateTimeImmutable;
     use InvalidArgumentException;
+    use DomainException;
 
     class VeterinarianAppointment {
-        private ?int $id = null;
+        private ?int $id;
         private readonly Animal $animal;
         private readonly Doctor $doctor;
         private readonly AppointmentType $type;
-        private readonly string $reason;
+        private ?string $reason;
         private ?string $action;
-        private readonly DateTimeImmutable $startDateTime;
+        private DateTimeImmutable $startDateTime;
         private ?DateTimeImmutable $endDateTime;
 
         public function __construct(Animal $animal, Doctor $doctor, AppointmentType $type,
-                                    string $reason, ?DateTimeImmutable $startDateTime=null,
+                                    ?DateTimeImmutable $startDateTime=null, ?string $reason,
                                     ?DateTimeImmutable $endDateTime=null,
-                                    ?string $action=null) {
+                                    ?string $action=null, ?int $id=null) {
             $this->animal = $animal;
             $this->doctor = $doctor;
             $this->type = $type;
@@ -33,16 +33,11 @@
                 $this->setEndDateTime($endDateTime);
 
             $this->action = $action;
+            $this->id = $id;
         }
 
         public final function getId() : ?int {
             return $this->id;
-        }
-
-        public final function setId(int $id) : void {
-            if ($this->id != null)
-                throw new IllegalOperationException("Unable to change id once set!");
-            $this->id = $id;
         }
 
         public final function getAnimal() : Animal {
@@ -61,6 +56,10 @@
             return $this->reason;
         }
 
+        public final function setReason(string $reason) : void {
+            $this->reason = $reason;
+        }
+
         public final function getAction() : ?string {
             return $this->action;
         }
@@ -71,6 +70,15 @@
 
         public final function getStartDateTime() : DateTimeImmutable {
             return $this->startDateTime;
+        }
+
+        public final function setStartDateTime(DateTimeImmutable $startDateTime) : void {
+            $today = new DateTimeImmutable();
+
+            if ($today > $startDateTime)
+                throw new DomainException("Cannot schedule an appointment before now!");
+
+            $this->startDateTime = $startDateTime;
         }
 
         public final function getEndDateTime() : ?DateTimeImmutable {
