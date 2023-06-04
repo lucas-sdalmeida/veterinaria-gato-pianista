@@ -52,10 +52,10 @@
         }
 
         public final function getAge() : int {
-            $currentYear = intval((new DateTimeImmutable())->format("Y"));
-            $yearOfBirth = intval($this->dateOfBirth->format("Y"));
+            $today = new DateTimeImmutable();
+            $intervalBetweenBirthAndToday = $today->diff($this->dateOfBirth);
             
-            return $currentYear - $yearOfBirth;
+            return $intervalBetweenBirthAndToday->y;
         }
 
         public final function getDateOfBirth() : DateTimeImmutable {
