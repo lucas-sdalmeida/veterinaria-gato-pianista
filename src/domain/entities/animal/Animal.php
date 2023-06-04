@@ -9,7 +9,7 @@
     class Animal {
         private ?int $id = null;
         private string $name;
-        private readonly string $specie;
+        private string $specie;
         private ?string $race;
         private readonly Tutor $tutor;
         private DateTimeImmutable $dateOfBirth;
@@ -39,6 +39,10 @@
 
         public final function getSpecie() : string {
             return $this->specie;
+        }
+
+        public final function setSpecie(string $specie) : void {
+            $this->specie = $specie;
         }
 
         public final function getRace() : ?string {
