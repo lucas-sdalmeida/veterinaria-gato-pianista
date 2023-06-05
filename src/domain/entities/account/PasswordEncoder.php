@@ -3,7 +3,7 @@
 
     final class PasswordEncoder {
         public static function encode(string $password) : string {
-            return password_hash($password, "BCrypt", ["cost" => 17]);
+            return password_hash($password, PASSWORD_DEFAULT, ["cost" => 17]);
         }
 
         public static function validatePassword(string $password, string $hash) : bool {
