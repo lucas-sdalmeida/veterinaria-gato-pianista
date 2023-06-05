@@ -20,9 +20,5 @@ use InvalidArgumentException;
         public final function hasGreaterOrEqualAccessLevelThan(UserRole $other) : bool {
             return array_search($this, static::cases()) > array_search($other, static::cases());
         }
-
-        public function __toString() : string {
-            return $this->value;
-        }
     }
 ?>
