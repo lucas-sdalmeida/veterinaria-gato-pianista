@@ -3,6 +3,7 @@
 
     final class JSONResponseSender {
         public function sendResponse(Response $response) : never {
+            http_response_code($response->getCode());
             $this->setHeaders(array_merge(
                 [ "status" => $response->getCode() ],
                 $response->getBody()
