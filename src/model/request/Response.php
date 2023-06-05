@@ -2,10 +2,10 @@
     namespace pw2s3\clinicaveterinaria\model\request;
 
     final class Response {
-        private readonly int $code;
+        private int $code;
         private array $bodyContent = [];
 
-        public function __construct(int $code) {
+        public function __construct(?int $code=200) {
             $this->code = $code;
         }
 
@@ -19,6 +19,10 @@
 
         public function getCode() : int {
             return $this->code;
+        }
+
+        public function setCode(int $code) : void {
+            $this->code = $code;
         }
     }
 ?>
