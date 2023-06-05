@@ -89,6 +89,32 @@ use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
             }
         }
 
+        public function findSomeByTutor(Tutor $tutor) : mixed {
+            $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date, status FROM animal " . 
+                    "WHERE tutor_id = :tutor_id";
+            $connectionFactory = new SingletonMySQLConnectionFactory();
+            
+            try {
+                $statement = $connectionFactory->prepareStatement($sql);
+                $statement->execute([ "tutor_id" => $tutor->getId() ]);
+
+                $animalEntries = $statement->fetchAll();
+
+                if (!$animalEntries)
+                    return [];
+
+                $animals = [];
+
+                foreach($animalEntries as $animalEntry)
+                    $animals[] = static::entryToEntity($animalEntry);
+
+                return $animals;
+            }
+            catch (PDOException $error) {
+                throw new Exception($error->getMessage());
+            }
+        }
+
         public function findAll() : array {
             $sql = "SELECT id, name, specie, race, tutor_id, date_of_birth, registration_date, status FROM animal";
             $connectionFactory = new SingletonMySQLConnectionFactory();
