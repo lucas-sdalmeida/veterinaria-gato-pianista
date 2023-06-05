@@ -7,6 +7,7 @@
     use pw2s3\clinicaveterinaria\util\CRMV;
     use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
     use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
+    use pw2s3\clinicaveterinaria\domain\entities\account\UserAccount;
     use DateTimeImmutable;
     use InvalidArgumentException;
     use PDOException;
@@ -109,6 +110,27 @@
                 return static::entryToEntity($doctorEntry);
             }
             catch (PDOException $error) {
+                throw new Exception($error->getMessage());
+            }
+        }
+
+        public function findOneByUserAccount(UserAccount $account) : mixed {
+            $sql = "SELECT id, name, cpf, crmv, phone_number, date_of_birth, hiring_date, registration_date, status " . 
+                    "FROM doctor WHERE account_id = :account_id";
+            $connectionFactory = new SingletonMySQLConnectionFactory();
+
+            try {
+                $statement = $connectionFactory->prepareStatement($sql);
+                $statement->execute([ "account_id" => $account->getId() ]);
+
+                $doctorEntry = $statement->fetch();
+
+                if (!$doctorEntry)
+                    return null;
+
+                return static::entryToEntity($doctorEntry);
+            }
+            catch(PDOException $error) {
                 throw new Exception($error->getMessage());
             }
         }

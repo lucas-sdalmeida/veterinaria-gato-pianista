@@ -6,6 +6,7 @@
     use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
     use pw2s3\clinicaveterinaria\util\CPF;
     use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
+    use pw2s3\clinicaveterinaria\domain\entities\account\UserAccount;
     use InvalidArgumentException;
     use PDOException;
     use Exception;
@@ -83,6 +84,27 @@
                 return static::entryToEntity($tutorEntry);
             }
             catch (PDOException $error) {
+                throw new Exception($error->getMessage());
+            }
+        }
+
+        public function findOneByUserAccount(UserAccount $account) : mixed {
+            $sql = "SELECT id, name, cpf, phone_number, date_of_birth, registration_date, status FROM tutor " . 
+                    "WHERE account_id = :account_id";
+            $connectionFactory = new SingletonMySQLConnectionFactory();
+
+            try {
+                $statement = $connectionFactory->prepareStatement($sql);
+                $statement->execute([ "account_id" => $account->getId() ]);
+
+                $tutorEntry = $statement->fetch();
+
+                if (!$tutorEntry)
+                    return null;
+
+                return static::entryToEntity($tutorEntry);
+            }
+            catch(PDOException $error) {
                 throw new Exception($error->getMessage());
             }
         }
