@@ -114,7 +114,7 @@ use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
             }
         }
 
-        public function updade(mixed $entity) : void {
+        public function update(mixed $entity) : void {
             if (!static::isAnAnimal($entity))
                 throw new InvalidArgumentException("Entity must be a Animal!");
 

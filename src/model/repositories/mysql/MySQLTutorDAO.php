@@ -112,7 +112,7 @@
             }
         }
 
-        public function updade(mixed $entity) : void {
+        public function update(mixed $entity) : void {
             if (!static::isATutor($entity))
                 throw new InvalidArgumentException("Entity must be a Tutor");
 

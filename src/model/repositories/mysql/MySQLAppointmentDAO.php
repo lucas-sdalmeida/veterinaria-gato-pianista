@@ -254,7 +254,7 @@
             }
         }
 
-        public function updade(mixed $entity) : void {
+        public function update(mixed $entity) : void {
             if (!static::isAVeterinarianAppointment($entity))
                 throw new InvalidArgumentException("Entity must be a Veterinarian Appointment");
 

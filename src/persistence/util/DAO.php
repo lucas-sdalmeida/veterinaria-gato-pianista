@@ -8,7 +8,7 @@
 
         function findAll() : array;
 
-        function updade(mixed $entity) : void;
+        function update(mixed $entity) : void;
 
         function deleteByKey(mixed $key) : void;
     }

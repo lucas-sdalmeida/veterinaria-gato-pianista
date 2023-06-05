@@ -139,7 +139,7 @@
             }
         }
 
-        public function updade(mixed $entity) : void {
+        public function update(mixed $entity) : void {
             if (!static::isADoctor($entity))
                 throw new InvalidArgumentException("Entity must be a Doctor!");
 
