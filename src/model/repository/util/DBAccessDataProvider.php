@@ -2,7 +2,6 @@
     namespace pw2s3\clinicaveterinaria\model\repository\util;
 
     final class DBAccessDataProvider {
-        private readonly string $dataPath;
         private readonly string $url;
         private readonly string $username;
         private readonly string $password;
@@ -22,7 +21,7 @@
                 );
 
             $neededKeys = ["url", "username", "password"];
-            $accessData = json_decode($accessDataFile);
+            $accessData = json_decode($accessDataFile, true);
 
             if (count(array_diff(array_keys($accessData), $neededKeys)) > 0)
                 throw new InvalidContentException(
