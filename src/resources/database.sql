@@ -109,7 +109,7 @@ insert into user_account(username, password, role, registration_date) values
 
 insert into tutor(name, cpf, phone_number, date_of_birth, registration_date, account_id) values
     ('Tiago Trojahn', '123456789-10', '(11)11111-1111', '2000-01-01', '2023-06-05', 
-        (select id from user_account where username = 'tiago-trojahn_as_tutor')),
+        (select id from user_account where username = 'tiago_trojahn_as_tutor')),
     ('Tutor 1', '23456789101', '(11)22222-2222', '1998-04-20', '2023-06-05', null),
     ('Tutor 2', '34567891012', '(11)33333-3333', '1980-05-10', '2023-06-05', null),
     ('Tutor 3', '45678910123', '(11)44444-4444', '2000-10-17', '2023-06-05', null),
