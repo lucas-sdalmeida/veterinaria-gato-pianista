@@ -29,7 +29,7 @@
                     "phone_number" => $entity->getPhoneNumber(),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
                     "registration_date" => $entity->getRegistrationDate()->format("Y-m-d"),
-                    "status" => $entity->getStatus()
+                    "status" => $entity->getStatus()->value
                 ]);
             }
             catch (PDOException $error) {
