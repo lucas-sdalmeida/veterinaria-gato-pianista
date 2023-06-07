@@ -7,7 +7,7 @@
     use DomainException;
 
     class Tutor {
-        private int $id;
+        private ?int $id;
         private string $name;
         private readonly CPF $cpf;
         private string $phoneNumber;
