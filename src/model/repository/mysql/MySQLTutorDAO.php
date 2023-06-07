@@ -38,7 +38,7 @@
         }
 
         private static function entryToEntity(array $entry) : mixed {
-            $tutor = new Tutor($entry["name"], $entry["cpf"], $entry["phoneNumber"], 
+            $tutor = new Tutor($entry["name"], $entry["cpf"], $entry["phone_number"], 
                                 DateTimeImmutable::createFromFormat('Y-m-d' , $entry["date_of_birth"]), 
                                 DateTimeImmutable::createFromFormat("Y-m-d", $entry["registration_date"]),
                                 RegistrationStatus::from($entry["status"]), $entry["id"]
