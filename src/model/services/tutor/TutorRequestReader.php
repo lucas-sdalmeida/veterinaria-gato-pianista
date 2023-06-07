@@ -16,8 +16,7 @@
                  throw new WrongRouteException("This is not Tutor service route!");
 
             $parameters = [];
-
-            if ($numberOfMatches >= 2)
+            if ($numberOfMatches >= 2 && !empty($matches[2]))
                  $parameters["tutorId"] = intval($matches[2]);
 
             return $parameters;
