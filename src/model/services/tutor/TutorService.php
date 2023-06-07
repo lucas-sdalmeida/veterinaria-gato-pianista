@@ -20,6 +20,7 @@
                 return;
             
             static::$METHOD_HANDLERS[HTTPMethod::GET->value] = new GetTutorMethodHandler();
+            static::$METHOD_HANDLERS[HTTPMethod::POST->value] = new PostTutorMethodHandler();
         }
 
         public function redirectRequest(Request $request): Response {
