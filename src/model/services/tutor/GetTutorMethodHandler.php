@@ -8,156 +8,158 @@
     use pw2s3\clinicaveterinaria\model\request\HTTPMethod;
     use pw2s3\clinicaveterinaria\model\request\Response;
     use pw2s3\clinicaveterinaria\model\request\Request;
+    use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
     use Exception;
-    use InvalidArgumentException;
 
     final class GetTutorMethodHandler implements MethodHandler {
-        public function handle(Request $request) : Response {
-            if ($request->getMethod() != HTTPMethod::GET) {
-                $response = new Response(500);
-                $response->addContent("cause", "The server got the wrong route! Get route instead of " . 
-                    $request->getMethod()->value . " route!"
-                );
+        public static array $VALID_PARAMETERS = [ "tutorId", "accountId" ];
 
-                return $response;
-            }
+        public function handle(Request $request) : Response {
+            if ($request->getMethod() != HTTPMethod::GET)
+                return HTTPUtils::generateErrorReponse(500, "The server got the wrong route! GET Tutor instead of " .
+                        $request->getMethod()->value . "!");
 
             if (!$request->hasParameters())
-                return $this->getAllTutors();
+                return $this->handleGetAll();
 
-            if (!$request->hasParameterByName("tutorId") && !$request->hasParameterByName("accountId")) {
-                $response = new Response(400);
-                $response->addContent("cause", "It is only supported a tutor id param and/or a account id!");
+            if (static::hasInvalidParameters($request))
+                return HTTPUtils::generateErrorReponse(400, "It is only supported a tutorId and/or ". 
+                        "an accountId parameter!");
 
-                return $response;
-            }
-            
             if ($request->hasParameterByName("tutorId") && $request->hasParameterByName("accountId"))
-                return $this->getTutorByIdAndUserAccount($request->getParameterByName("tutorId"),
-                                                            intval($request->getParameterByName("accountId")));
-            if ($request->hasParameterByName("tutorId"))
-                return $this->getTutorById($request->getParameterByName("tutorId"));
+                return $this->handleGetByIdAndAccount($request->getParameterByName("tutorId"), 
+                                    intval($request->getParameterByName("accountId")));
             
-            return $this->getTutorByUserAccount(intval($request->getParameterByName("accountId")));
+            if ($request->hasParameterByName("tutorId"))
+                return $this->handleGetById($request->getParameterByName("tutorId"));
+
+            return $this->handleGetByAccount(intval($request->getParameterByName("accountId")));
         }
 
-        public function getTutorById(int $id) : Response {
-            $tutorDAO = new MySQLTutorDAO();
-            $response = new Response();
-
+        private function handleGetAll() : Response {
             try {
-                $tutor = $tutorDAO->findOneByKey($id);
+                $tutors = $this->getAllTutors();
 
-                if ($tutor == null) {
-                    $response->setCode(400);
-                    $response->addContent("cause", "There is not such tutor!");
-                    return $response;
-                }
+                if (count($tutors) == 0)
+                    return HTTPUtils::generateErrorReponse(404, "No tutor has been registered!");
 
-                $response->addContent("data", [ static::tutorToArray($tutor) ]);
-            }
-            catch (Exception $error) {
-                $response->setCode(500);
-                $response->addContent("cause", $error->getMessage());
-            }
-            finally {
+                $response = new Response();
+                $response->addContent("data", $tutors);
                 return $response;
             }
+            catch(Exception $error) {
+                return HTTPUtils::generateErrorReponse(500, $error->getMessage());
+            }
         }
 
-        public function getTutorByUserAccount(int $accountId) : Response {
+        private function handleGetByIdAndAccount(int $tutorId, int $accountId) : Response {
+            try {
+                $tutor = $this->getTutorByIdAndAccount($tutorId, $accountId);
+
+                if (count($tutor) == 0)
+                    return HTTPUtils::generateErrorReponse(404, "This account does not belongs to such tutor!");
+
+                $response = new Response();
+                $response->addContent("data", [ $tutor ]);
+                
+                return $response;
+            }
+            catch (Exception $error) {
+                return HTTPUtils::generateErrorReponse(500, $error->getMessage());
+            }
+        }
+
+        private function handleGetByAccount(int $accountId) : Response {
+            try {
+                $tutor = $this->getTutorByAccount($accountId);
+
+                if (count($tutor) == 0)
+                    return HTTPUtils::generateErrorReponse(404, "There is not a tutor with such account!");
+
+                $response = new Response();
+                $response->addContent("data", [ $tutor ]);
+
+                return $response;
+            }
+            catch (Exception $error) {
+                return HTTPUtils::generateErrorReponse(500, $error->getMessage());
+            }
+        }
+
+        private function handleGetById(int $tutorId) : Response {
+            try {
+                $tutor = $this->getTutorById($tutorId);
+
+                if (count($tutor) == 0)
+                    return HTTPUtils::generateErrorReponse(404, "There is not such tutor!");
+
+                $response = new Response();
+                $response->addContent("data", [ $tutor ]);
+
+                return $response;
+            }
+            catch (Exception $error) {
+                return HTTPUtils::generateErrorReponse(500, $error->getMessage());
+            }
+        }
+
+        public function getAllTutors() : array {
+            $tutorDAO = new MySQLTutorDAO();
+            $tutors = $tutorDAO->findAll();
+            $tutorsAsArray = [];
+
+            foreach($tutors as $tutor)
+                $tutorsAsArray[] = static::tutorToArray($tutor);
+
+            return $tutorsAsArray;
+        }
+
+        public function getTutorByIdAndAccount(int $tutorId, int $accountId) : array {
+            $tutorDAO = new MySQLTutorDAO();
             $accountDAO = new MySQLUserAccountDAO();
-            $tutorDAO = new MySQLTutorDAO();
-            $response = new Response();
 
-            try {
-                $account = $accountDAO->findOneByKey($accountId);
+            $account = $accountDAO->findOneByKey($accountId);
 
-                if ($account == null) {
-                    $response->setCode(404);
-                    $response->addContent("cause", "There is not such account!");
-                    return $response;
-                }
+            if ($account == null)
+                return [];
 
-                $tutor = $tutorDAO->findOneByUserAccount($account);
+            $tutor = $tutorDAO->findOneByKeyAndUserAccount($tutorId, $account);
 
-                if ($tutor == null) {
-                    $response->setCode(400);
-                    $response->addContent("cause", "This account does not belongs to any tutor!");
-                    return $response;
-                }
+            if ($tutor == null)
+                return [];
 
-                $response->addContent("data", [ static::tutorToArray($tutor) ]);
-            }
-            catch (Exception $error) {
-                $response->setCode(500);
-                $response->addContent("cause", $error->getMessage());
-            }
-            finally {
-                return $response;
-            }
+            return static::tutorToArray($tutor);
         }
 
-        public function getTutorByIdAndUserAccount(int $id, int $accountId) : Response {
+        public function getTutorByAccount(int $accountId) : array {
             $tutorDAO = new MySQLTutorDAO();
             $accountDAO = new MySQLUserAccountDAO();
-            $response = new Response();
 
-            try {
-                $account = $accountDAO->findOneByKey($accountId);
+            $account = $accountDAO->findOneByKey($accountId);
 
-                if ($account == null) {
-                    $response->setCode(404);
-                    $response->addContent("cause", "There is not such account!");
-                    return $response;
-                }
+            if ($account == null)
+                return [];
 
-                $tutor = $tutorDAO->findOneByKeyAndUserAccount($id, $account);
+            $tutor = $tutorDAO->findOneByUserAccount($account);
 
-                if ($tutor == null) {
-                    $response->setCode(400);
-                    $response->addContent("cause", "This account does not belongs to this tutor!");
-                    return $response;
-                }
+            if ($tutor == null);
 
-                $response->addContent("data", [ static::tutorToArray($tutor) ]);
-            }
-            catch (Exception $error) {
-                $response->setCode(500);
-                $response->addContent("cause", $error->getMessage());
-            }
-            finally {
-                return $response;
-            }
+            return static::tutorToArray($tutor);
         }
 
-        public function getAllTutors() : Response {
+        public function getTutorById(int $tutorId) : array {
             $tutorDAO = new MySQLTutorDAO();
-            $response = new Response();
+            
+            $tutor = $tutorDAO->findOneByKey($tutorId);
 
-            try {
-                $tutors = $tutorDAO->findAll();
+            if ($tutor == null)
+                return [];
+            
+            return static::tutorToArray($tutor);
+        }
 
-                if (count($tutors) == 0) {
-                    $response->setCode(404);
-                    $response->addContent("cause", "None tutor has been registered yet!");
-                    return $response;
-                }
-
-                $tutorsAsArray = [];
-
-                foreach($tutors as $tutor)
-                    $tutorsAsArray[] = static::tutorToArray($tutor);
-
-                $response->addContent("data", $tutorsAsArray);
-            }
-            catch (Exception $error) {
-                $response->setCode(500);
-                $response->addContent("cause", $error->getMessage());
-            }
-            finally {
-                return $response;
-            }
+        public static function hasInvalidParameters(Request $request) : bool {
+            return count(array_diff(array_keys($request->getAllParameters()), static::$VALID_PARAMETERS)) > 0;
         }
 
         public static function tutorToArray(Tutor $tutor) : array {
@@ -165,9 +167,10 @@
                 "id" => $tutor->getId(),
                 "name" => $tutor->getName(),
                 "cpf" => $tutor->getCPF()->getCPFNumber(),
+                "phoneNumber" => $tutor->getPhoneNumber(),
                 "dateOfBirth" => $tutor->getDateOfBirth()->format("Y-m-d"),
-                "registrationDate" => $tutor->getRegistrationDate()->format("Y-m-d"),
-                "status" => $tutor->getStatus()->value
+                "registrationDate" => $tutor->getRegistrationDate()->format('Y-m-d'),
+                "status" => $tutor->getStatus()
             ];
         }
     }
