@@ -1,6 +1,7 @@
 <?php
     namespace pw2s3\clinicaveterinaria\model\application;
 
+use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use pw2s3\clinicaveterinaria\model\auth\Token;
@@ -22,17 +23,22 @@ use stdClass;
 
         public static function tokenToArray(Token $token) : array {
             return [
-                "iat" => $token->getIssueDateTime()->format("Y-m-d H:i:s"),
+                "iat" => $token->getIssueDateTime()->getTimestamp(),
                 "iss" => $token->getIssuer(),
-                "nbf" => $token->getNotBeforeDateTime()->format("Y-m-d H:i:s"),
-                "exp" => $token->getExpiringDateTime()->format("Y-m-d H:i:s"),
+                "nbf" => $token->getNotBeforeDateTime()->getTimestamp(),
+                "exp" => $token->getExpiringDateTime()->getTimestamp(),
                 "sub" => $token->getSubject(),
                 "data" => $token->getData()
             ];
         }
 
         public static function payloadToToken(stdClass $payload) : Token {
-            return new Token($payload->iat, $payload->iss, $payload->sub, $payload->nbf);
+            $token = new Token(DateTimeImmutable::createFromFormat("U", $payload->iat), $payload->iss, $payload->sub);
+            
+            foreach ($payload->data as $fieldName => $data)
+                $token->addData($fieldName, strval($data));
+
+            return $token;
         }
     }
 ?>
