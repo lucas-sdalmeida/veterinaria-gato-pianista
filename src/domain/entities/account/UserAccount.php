@@ -1,7 +1,6 @@
 <?php
     namespace pw2s3\clinicaveterinaria\domain\entities\account;
-
-    use pw2s3\clinicaveterinaria\domain\util\IllegalOperationException;
+    
     use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
 
@@ -24,8 +23,8 @@
             $this->id = $id;
         }
 
-        public final function hasGreaterOrEqualAccessLevelThan(UserAccount $other) : bool {
-            return $this->role->hasGreaterOrEqualAccessLevelThan($other->role);
+        public final function hasGreaterOrEqualRoleThan(UserAccount|UserRole $other) : bool {
+            return $this->role->compareAccessLevel($other instanceof UserAccount ? $other->role : $other) >= 0;
         }
 
         public final function getId() : ?int {

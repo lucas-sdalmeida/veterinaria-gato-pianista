@@ -17,8 +17,8 @@ use InvalidArgumentException;
             );
         }
 
-        public final function hasGreaterOrEqualAccessLevelThan(UserRole $other) : bool {
-            return array_search($this, static::cases()) > array_search($other, static::cases());
+        public final function compareAccessLevel(UserRole $other) : int {
+            return array_search($this, static::cases()) <=> array_search($other, static::cases());
         }
     }
 ?>
