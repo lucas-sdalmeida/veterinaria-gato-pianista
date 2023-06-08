@@ -5,13 +5,23 @@
         public function readRequest() : Request {
             $uri = $_SERVER["REQUEST_URI"];
             $method = HTTPMethod::from($_SERVER["REQUEST_METHOD"]);
-            $request = new Request($uri, $method);
+            $request = new Request($uri, $method, $this->readEncodedAuthToken());
             $parameters = array_merge($this->readQueryParameters(), $this->readBodyParameters());
 
             foreach($parameters as $paramName => $value)
                 $request->addParameter($paramName, $value);
             
             return $request;
+        }
+
+        private function readEncodedAuthToken() : ?string {
+            $matches = [];
+            preg_match('/Bearer\s(\S+)/', $_SERVER["HTTP_AUTHORIZATION"], $matches);
+
+            if (count($matches) < 2)
+                return null;
+
+            return $matches[1];
         }
 
         private function readQueryParameters() : array {

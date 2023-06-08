@@ -6,11 +6,17 @@ use InvalidArgumentException;
     final class Request {
         private readonly string $uri;
         private readonly HTTPMethod $method;
+        private readonly ?string $encodedAuthToken;
         private array $parameters = [];
 
-        public function __construct(string $uri, HTTPMethod|string $method) {
+        public function __construct(string $uri, HTTPMethod|string $method, ?string $encodedAuthToken = null) {
             $this->uri =$uri;
             $this->method = is_string($method) ? HTTPMethod::from(strtoupper($method)) : $method;
+            $this->encodedAuthToken = $encodedAuthToken;
+        }
+
+        public function hasEncodedAuthToken() : bool {
+            return $this->encodedAuthToken != null;
         }
 
         public function hasParameters() : bool {
@@ -41,6 +47,10 @@ use InvalidArgumentException;
 
         public function getMethod() : HTTPMethod {
             return $this->method;
+        }
+
+        public function getEncodedAuthToken() : ?string {
+            return $this->encodedAuthToken;
         }
     }
 ?>
