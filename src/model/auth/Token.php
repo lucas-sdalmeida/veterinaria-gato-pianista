@@ -13,13 +13,10 @@
         private readonly int $subject;
         private array $data = [];
 
-        public function __construct(DateTimeImmutable $issuedAt, string $issuer, int $subject, 
-                                    ?DateTimeImmutable $notBefore=null) {
+        public function __construct(DateTimeImmutable $issuedAt, string $issuer, int $subject) {
             $this->setIssueDateTime($issuedAt);
             $this->issuer = $issuer;
             $this->subject = $subject;
-            
-            if ($notBefore != null) $this->setNotBeforeDateTime($notBefore);
         }
 
         public function addData(string $fieldName, string $data) : void {
