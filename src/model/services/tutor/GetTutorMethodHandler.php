@@ -18,6 +18,10 @@
             if (!$request->hasParameters())
                 return $this->handleGetAll();
 
+            if (!static::hasRequiredParameters($request))
+                return HTTPUtils::generateErrorReponse(400, "Either no parameters are sent or a " . 
+                                "tutorId or accountId must be provided!");
+
             if ($request->hasParameterByName("tutorId") && $request->hasParameterByName("accountId"))
                 return $this->handleGetByIdAndAccount($request->getParameterByName("tutorId"), 
                                     intval($request->getParameterByName("accountId")));
@@ -160,6 +164,12 @@
                 "registrationDate" => $tutor->getRegistrationDate()->format('Y-m-d'),
                 "status" => $tutor->getStatus()
             ];
+        }
+
+        public static function hasRequiredParameters(Request $request) : bool {
+            $missingParameters = array_diff(static::$VALID_PARAMETERS, array_keys($request->getAllParameters()));
+
+            return count($missingParameters) < count(static::$VALID_PARAMETERS);
         }
     }
 ?>
