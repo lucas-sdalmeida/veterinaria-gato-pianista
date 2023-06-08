@@ -15,6 +15,9 @@
         }
 
         private function readEncodedAuthToken() : ?string {
+            if (!array_key_exists("HTTP_AUTHORIZATION", $_SERVER))
+                return null;
+
             $matches = [];
             preg_match('/Bearer\s(\S+)/', $_SERVER["HTTP_AUTHORIZATION"], $matches);
 
