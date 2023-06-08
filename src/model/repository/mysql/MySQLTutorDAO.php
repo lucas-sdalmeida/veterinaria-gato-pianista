@@ -159,7 +159,7 @@
             if (!static::isATutor($entity))
                 throw new InvalidArgumentException("Entity must be a Tutor");
 
-            $sql = "UPDATE tutor SET name = :name, phone_number = :phone_number, date_of_birth = :date_of birth, " . 
+            $sql = "UPDATE tutor SET name = :name, phone_number = :phone_number, date_of_birth = :date_of_birth, " . 
                     "status = :status WHERE id = :id";
             $connectionFactory = new SingletonMySQLConnectionFactory();
 
@@ -169,7 +169,7 @@
                     "name"  => $entity->getName(),
                     "phone_number" => $entity->getPhoneNumber(),
                     "date_of_birth" => $entity->getDateOfBirth()->format("Y-m-d"),
-                    "status" => $entity->getStatus(),
+                    "status" => $entity->getStatus()->value,
                     "id" => $entity->getId()
                 ]);
             }
