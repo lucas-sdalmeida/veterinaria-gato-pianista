@@ -138,7 +138,8 @@
 
             $tutor = $tutorDAO->findOneByUserAccount($account);
 
-            if ($tutor == null);
+            if ($tutor == null)
+                return [];
 
             return static::tutorToArray($tutor);
         }
