@@ -15,16 +15,8 @@
         public static array $VALID_PARAMETERS = [ "tutorId", "accountId" ];
 
         public function handle(Request $request) : Response {
-            if ($request->getMethod() != HTTPMethod::GET)
-                return HTTPUtils::generateErrorReponse(500, "The server got the wrong route! GET Tutor instead of " .
-                        $request->getMethod()->value . "!");
-
             if (!$request->hasParameters())
                 return $this->handleGetAll();
-
-            if (static::hasInvalidParameters($request))
-                return HTTPUtils::generateErrorReponse(400, "It is only supported a tutorId and/or ". 
-                        "an accountId parameter!");
 
             if ($request->hasParameterByName("tutorId") && $request->hasParameterByName("accountId"))
                 return $this->handleGetByIdAndAccount($request->getParameterByName("tutorId"), 
@@ -156,10 +148,6 @@
                 return [];
             
             return static::tutorToArray($tutor);
-        }
-
-        public static function hasInvalidParameters(Request $request) : bool {
-            return count(array_diff(array_keys($request->getAllParameters()), static::$VALID_PARAMETERS)) > 0;
         }
 
         public static function tutorToArray(Tutor $tutor) : array {

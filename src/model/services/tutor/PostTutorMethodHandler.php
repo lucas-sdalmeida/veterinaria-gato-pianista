@@ -15,10 +15,6 @@
         private static array $REQUIRED_PARAMETERS = [ "name", "cpf", "phoneNumber", "dateOfBirth" ];
 
         public function handle(Request $request) : Response {
-            if ($request->getMethod() != HTTPMethod::POST)
-                return HTTPUtils::generateErrorReponse(500, "The server got the wrong route! POST instead of " .
-                        $request->getMethod()->value . "!");
-
             $missingParameters = static::validateRequest($request);
 
             if (!empty($missingParameters))
