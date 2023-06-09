@@ -2,7 +2,6 @@
     namespace pw2s3\clinicaveterinaria\model\application;
 
     use pw2s3\clinicaveterinaria\model\request\Request;
-    use pw2s3\clinicaveterinaria\model\router\ErrorRoute;
     use pw2s3\clinicaveterinaria\model\router\Route;
     use pw2s3\clinicaveterinaria\model\router\Router;
     use pw2s3\clinicaveterinaria\model\services\ServicesRouter;
