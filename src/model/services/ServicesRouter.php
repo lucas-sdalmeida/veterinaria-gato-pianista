@@ -7,6 +7,8 @@
     use pw2s3\clinicaveterinaria\model\router\Router;
     use pw2s3\clinicaveterinaria\model\services\tutor\TutorService;
     use pw2s3\clinicaveterinaria\model\application\ErrorRoute;
+    use pw2s3\clinicaveterinaria\model\auth\Session;
+    use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
 
     final class ServicesRouter implements Router, Route {
         private const ROUTE_PATH_REGEX = '/veterinaria-gato-pianista\/(account|tutor|animal|doctor|appointment)\/?/';
@@ -29,10 +31,13 @@
             return new ErrorRoute();
         }
 
-        public function redirectRequest(Request $request): Response {
+        public function redirectRequest(Request $request, ?Session $session=null): Response {
+            if ($session == null)
+                return HTTPUtils::generateErrorReponse(401, "You must log-in!");
+
             $serviceRoute = $this->findRouteByRequest($request);
 
-            return $serviceRoute->redirectRequest($request);
+            return $serviceRoute->redirectRequest($request, $session);
         }
 
         public function isRoute(string $path): bool {
