@@ -1,6 +1,7 @@
 <?php
     require_once(__DIR__ . "/../vendor/autoload.php");
 
+    use pw2s3\clinicaveterinaria\model\application\ApplicationAuthorizator;
     use pw2s3\clinicaveterinaria\model\application\MainRouter;
     use pw2s3\clinicaveterinaria\model\request\JSONRequestReader;
     use pw2s3\clinicaveterinaria\model\request\JSONResponseSender;
@@ -15,8 +16,17 @@
 
     $router = new MainRouter();
     $route = $router->findRouteByRequest($request);
+
+    $authorizator = new ApplicationAuthorizator();
     
-    $response = $route->redirectRequest($request);
+    try {
+        $session = $authorizator->getSession($request);
+    }
+    catch (Exception $error) {
+        $session = null;
+    }
+    
+    $response = $route->redirectRequest($request, $session);
     $responseSender = new JSONResponseSender();
 
     $responseSender->sendResponse($response);
