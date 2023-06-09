@@ -8,15 +8,20 @@
     use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
     use pw2s3\clinicaveterinaria\model\request\Request;
     use pw2s3\clinicaveterinaria\model\request\Response;
+    use pw2s3\clinicaveterinaria\model\auth\Session;
+    use pw2s3\clinicaveterinaria\domain\entities\account\UserRole;
     use DateTimeImmutable;
     use Exception;
 
     final class PostTutorMethodHandler implements MethodHandler {
         private static array $REQUIRED_PARAMETERS = [ "name", "cpf", "phoneNumber", "dateOfBirth" ];
+        private static UserRole $MIN_LEVEL = UserRole::EMPLOYEE;
 
-        public function handle(Request $request) : Response {
+        public function handle(Request $request, Session $session) : Response {
             $missingParameters = static::validateRequest($request);
 
+            if (!$session->hasEnoughtAccessLevel(static::$MIN_LEVEL))
+                return HTTPUtils::generateErrorReponse(403, "You do not have permission to perform this action!");
             if (!empty($missingParameters))
                 return HTTPUtils::generateErrorReponse(400, $missingParameters);
 

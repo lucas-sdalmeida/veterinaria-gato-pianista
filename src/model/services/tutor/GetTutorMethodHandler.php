@@ -9,30 +9,37 @@
     use pw2s3\clinicaveterinaria\model\request\Response;
     use pw2s3\clinicaveterinaria\model\request\Request;
     use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
+    use pw2s3\clinicaveterinaria\model\auth\Session;
+    use pw2s3\clinicaveterinaria\model\application\UserSession;
+    use pw2s3\clinicaveterinaria\domain\entities\account\UserRole;
     use Exception;
 
     final class GetTutorMethodHandler implements MethodHandler {
         public static array $VALID_PARAMETERS = [ "tutorId", "accountId" ];
+        public static UserRole $LEVEL_FOR_GET_ALL = UserRole::DOCTOR;
+        public static UserRole $LEVEL_FOR_GET_ONE = UserRole::TUTOR;
 
-        public function handle(Request $request) : Response {
+        public function handle(Request $request, Session $session) : Response {
             if (!$request->hasParameters())
-                return $this->handleGetAll();
+                return $this->handleGetAll($session);
 
-            if (!static::hasRequiredParameters($request))
+            if (!static::hasRequiredParameters($request, $session))
                 return HTTPUtils::generateErrorReponse(400, "Either no parameters are sent or a " . 
                                 "tutorId or accountId must be provided!");
 
             if ($request->hasParameterByName("tutorId") && $request->hasParameterByName("accountId"))
                 return $this->handleGetByIdAndAccount($request->getParameterByName("tutorId"), 
-                                    intval($request->getParameterByName("accountId")));
+                                    intval($request->getParameterByName("accountId")), $session);
             
             if ($request->hasParameterByName("tutorId"))
-                return $this->handleGetById($request->getParameterByName("tutorId"));
+                return $this->handleGetById($request->getParameterByName("tutorId"), $session);
 
-            return $this->handleGetByAccount(intval($request->getParameterByName("accountId")));
+            return $this->handleGetByAccount(intval($request->getParameterByName("accountId")), $session);
         }
 
-        private function handleGetAll() : Response {
+        private function handleGetAll(Session $session) : Response {
+            if (!$session->hasEnoughtAccessLevel(static::$LEVEL_FOR_GET_ALL))
+                return HTTPUtils::generateErrorReponse(403, "You do not have permission to perform this action!");
             try {
                 $tutors = $this->getAllTutors();
 
@@ -48,7 +55,11 @@
             }
         }
 
-        private function handleGetByIdAndAccount(int $tutorId, int $accountId) : Response {
+        private function handleGetByIdAndAccount(int $tutorId, int $accountId, Session $session) : Response {
+            if (!$session->hasEnoughtAccessLevel(static::$LEVEL_FOR_GET_ONE) || 
+                    $session->getToken()->getSubject() != $accountId)
+                return HTTPUtils::generateErrorReponse(403, "You do not have permission to perform this action!");
+
             try {
                 $tutor = $this->getTutorByIdAndAccount($tutorId, $accountId);
 
@@ -65,7 +76,10 @@
             }
         }
 
-        private function handleGetByAccount(int $accountId) : Response {
+        private function handleGetByAccount(int $accountId, Session $session) : Response {
+            if ($session->hasEnoughtAccessLevel(static::$LEVEL_FOR_GET_ONE) || 
+                    $session->getToken()->getSubject() != $accountId)
+                return HTTPUtils::generateErrorReponse(403, "You do not have permission to perform this action!");
             try {
                 $tutor = $this->getTutorByAccount($accountId);
 
@@ -82,8 +96,11 @@
             }
         }
 
-        private function handleGetById(int $tutorId) : Response {
+        private function handleGetById(int $tutorId, Session $session) : Response {
+            if (!$session->hasEnoughtAccessLevel(UserRole::DOCTOR))
+                    return $this->handleGetByIdAndAccount($tutorId, $session->getToken()->getSubject(), $session);
             try {
+
                 $tutor = $this->getTutorById($tutorId);
 
                 if (count($tutor) == 0)

@@ -34,7 +34,7 @@
             $requestReader = new TutorRequestReader();
             $request = $requestReader->upgradeRequest($request);
 
-            return static::$METHOD_HANDLERS[$request->getMethod()->value]->handle($request);
+            return static::$METHOD_HANDLERS[$request->getMethod()->value]->handle($request, $session);
         }
 
         public function isRoute(string $path) : bool {
