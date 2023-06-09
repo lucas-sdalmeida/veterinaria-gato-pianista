@@ -1,0 +1,54 @@
+Professor,
+
+Mesmo com o tempo extra, não consegui terminar, infelizmente. De fato, transformei esse projeto em algo muito ambicioso
+como você verá. A minha intenção com ele era a de fazer algo bom o bastante pra subir e deixar de exemplo (ideia da 
+qual eu desisti, mesmo antes de não conseguir terminar). Além disso, essa complexidade (e da minha resolução dos
+exercícios anteriores) se deve ao fato de eu estar em DOOS4 e, por estar cursando dependência em PW2S3, eu aproveitei
+para praticar os conteúdos de DOOS4 e de POOS3. Me dei mal, claramente. E desculpa pelo trabalho que vai ser corrigir.
+
+Ele vai criar o banco automáticamente.
+
+Eu só consegui implementar o service de uma entidade: o de tutor. Para acessá-lo você precisará antes acessar a rota
+veterinaria-gato-pianista/login para autenticação. Há 4 niveis de acesso: tutor, doctor, employee e admin. Para todos
+os casos, é necessário enviar dois parâmetros: username e password. Segue usuários e senha padrão que são criados
+juntamente do bando de dados para poder testar os services:
+
+    - username: tiago_trojahn_as_tutor, password: tiago_trojahn_as_tutor => Tutor;
+    - username: tiago_trojahn_as_doctor, password: tiago_trojahn_as_doctor => Doctor;
+    - username: tiago_trojahn_as_employee, password: tiago_trojahn_as_employee => Employee;
+    - username: tiago_trojahn_as_admin, password: tiago_trojahn_as_admin => Admin.
+
+Ele entenderá os parâmetros se forem enviados na url ou no formato JSON no corpo da requisição.
+
+As rotas do service de Tutor são:
+    - GET (Todos): veterinaria-gato-pianista/tutor
+    - GET (Um pelo id de tutor): veterinaria-gato-pianista/tutor/{id}
+    - GET (Um pelo id de conta): veterinaria-gato-pianista/tutor?accountId={idConta}
+    - GET (Um pelo id de tutor e o id de conta): veterinaria-gato-pianista/{idTutor}?accountId={idConta}
+    - POST: veterinaria-gato-pianista/tutor
+    - PUT: veterinaria-gato-pianista/tutor/{idTutor}[?accountId={idConta}]
+    - DELETE: Não implementado
+
+Observações:
+    1. Parâmetros no corpo da requisição prevalecem sobre os parametros com os mesmos nomes no formato query param;
+
+    2. O id de tutor pode ser enviado pelo padrão REST, por query param ou no corpo da requisição no formato JSON;
+        1.1. O formato REST prevalece sobre o corpo da requisição.
+
+    3. accountId pode também pode ser enviado no corpo da requisição no formatoJSON;
+
+    4. No PUT, você pode selecionar o tutor a ser alterado pelos mesmos parâmetros usados pelo GET que retornam apenas 
+       um tutor;
+
+    5. Para cadastrar um tutor, são necessários:
+        - o nome;
+        - o CPF;
+        - o número de telefone;
+        - a data de nascimento no formato yyyy-mm-dd.
+    
+    6. Para o método PUT os seguintes dados são requeridos (mesmo que ele não venham a ser alterados):
+        - o nome;
+        - o número de telefone;
+        - a data de nascimento no formato yyyy-mm-dd.
+
+    7. Outras informações do tutor não são alteráveis.
