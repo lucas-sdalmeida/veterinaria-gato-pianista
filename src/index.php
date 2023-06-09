@@ -1,4 +1,8 @@
 <?php
+    /*
+        Lucas Silva de Almeida.
+    */
+
     require_once(__DIR__ . "/../vendor/autoload.php");
 
     use pw2s3\clinicaveterinaria\model\application\ApplicationAuthorizator;

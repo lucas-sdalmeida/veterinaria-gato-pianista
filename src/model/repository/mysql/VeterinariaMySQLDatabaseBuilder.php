@@ -8,7 +8,7 @@
     use Exception;
 
     final class VeterinariaMySQLDatabaseBuilder implements DatabaseBuilder {
-        private const PATH_FOR_ACCESS_DATA = __DIR__ . '\..\..\..\resources\mysql-db-access-data.json';
+        private const PATH_FOR_ACCESS_DATA = __DIR__ . '\..\..\..\resources\xampp-mysql-db-access-data.json';
         private const PATH_FOR_BUILD_SQL_FILE = __DIR__ . '\..\..\..\resources\database.sql';
 
         public function build() : void {

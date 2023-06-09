@@ -6,7 +6,7 @@
     use PDO;
 
     class SingletonMySQLConnectionFactory extends ConnectionFactory {
-        private const PATH_FOR_ACCESS_DATA = __DIR__ . "/../../../resources/mysql-db-access-data.json";
+        private const PATH_FOR_ACCESS_DATA = __DIR__ . "/../../../resources/xampp-mysql-db-access-data.json";
         private const PDO_OPTIONS = [ PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                                       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                                       PDO::ATTR_EMULATE_PREPARES => false

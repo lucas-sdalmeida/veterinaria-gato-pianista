@@ -1,0 +1,6 @@
+{
+    "path" : "mysql:host=localhost",
+    "database" : "veterinaria_gato_pianista",
+    "username" : "root",
+    "password" : ""
+}
