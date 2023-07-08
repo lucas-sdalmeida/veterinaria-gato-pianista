@@ -1,12 +1,12 @@
 {
-    "name": "lucas/clinica-veterinaria-gato-pianista",
+    "name": "lucassdalmeida/veterinaria-gato-pianista",
     "type": "project",
     "require": {
         "firebase/php-jwt": "^6.5"
     },
     "autoload": {
         "psr-4": {
-            "pw2s3\\clinicaveterinaria\\": "src/"
+            "lucassdalmeida\\gatopianista\\veterinaria": "src/"
         }
     },
     "authors": [
