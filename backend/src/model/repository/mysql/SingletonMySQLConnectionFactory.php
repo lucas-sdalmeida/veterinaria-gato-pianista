@@ -1,8 +1,8 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\mysql;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\mysql;
 
-    use pw2s3\clinicaveterinaria\persistence\util\ConnectionFactory;
-    use pw2s3\clinicaveterinaria\model\repository\util\DBAccessDataProvider;
+    use lucassdalmeida\gatopianista\veterinaria\persistence\util\ConnectionFactory;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\util\DBAccessDataProvider;
     use PDO;
 
     class SingletonMySQLConnectionFactory extends ConnectionFactory {

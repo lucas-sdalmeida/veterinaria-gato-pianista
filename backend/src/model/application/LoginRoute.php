@@ -1,12 +1,12 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\application;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\application;
 
-    use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
-    use pw2s3\clinicaveterinaria\model\request\Request;
-    use pw2s3\clinicaveterinaria\model\request\Response;
-    use pw2s3\clinicaveterinaria\model\router\Route;
-    use pw2s3\clinicaveterinaria\model\application\UserSession;
-use pw2s3\clinicaveterinaria\model\auth\Session;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\HTTPUtils;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Response;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\Route;
+    use lucassdalmeida\gatopianista\veterinaria\model\application\UserSession;
+use lucassdalmeida\gatopianista\veterinaria\model\auth\Session;
 
     final class LoginRoute implements Route {
         private const ROUTE_PATH_REGEX = '/veterinaria-gato-pianista\/login\/?$/';

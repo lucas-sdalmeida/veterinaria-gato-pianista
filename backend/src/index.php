@@ -5,10 +5,10 @@
 
     require_once(__DIR__ . "/../vendor/autoload.php");
 
-    use pw2s3\clinicaveterinaria\model\application\ApplicationAuthorizator;
-    use pw2s3\clinicaveterinaria\model\application\MainRouter;
-    use pw2s3\clinicaveterinaria\model\request\JSONRequestReader;
-    use pw2s3\clinicaveterinaria\model\request\JSONResponseSender;
+    use lucassdalmeida\gatopianista\veterinaria\model\application\ApplicationAuthorizator;
+    use lucassdalmeida\gatopianista\veterinaria\model\application\MainRouter;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\JSONRequestReader;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\JSONResponseSender;
 
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Max-Age: 3600");

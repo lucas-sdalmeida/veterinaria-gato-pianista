@@ -1,12 +1,12 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\mysql;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\mysql;
 
-    use pw2s3\clinicaveterinaria\persistence\util\DAO;
-    use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
-    use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
-    use pw2s3\clinicaveterinaria\util\CPF;
-    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
-    use pw2s3\clinicaveterinaria\domain\entities\account\UserAccount;
+    use lucassdalmeida\gatopianista\veterinaria\persistence\util\DAO;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\tutor\Tutor;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
+    use lucassdalmeida\gatopianista\veterinaria\util\CPF;
+    use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\account\UserAccount;
     use InvalidArgumentException;
     use PDOException;
     use Exception;

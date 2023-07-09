@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\util;
 
     interface DatabaseBuilder {
         function build() : void;

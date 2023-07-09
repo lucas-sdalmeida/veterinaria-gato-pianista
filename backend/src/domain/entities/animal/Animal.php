@@ -1,8 +1,8 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\domain\entities\animal;
+    namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\animal;
 
-    use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
-    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\tutor\Tutor;
+    use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
     use DomainException;
 

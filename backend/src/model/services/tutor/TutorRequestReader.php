@@ -1,8 +1,8 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\services\tutor;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\services\tutor;
 
-    use pw2s3\clinicaveterinaria\model\services\ServicesRequestReader;
-    use pw2s3\clinicaveterinaria\model\router\WrongRouteException;
+    use lucassdalmeida\gatopianista\veterinaria\model\services\ServicesRequestReader;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\WrongRouteException;
 
     final class TutorRequestReader extends ServicesRequestReader {
         private const TUTOR_PATH_REGEX = '/veterinaria-gato-pianista\/tutor(\/(\d+))?\/?(\?.*)?$/';

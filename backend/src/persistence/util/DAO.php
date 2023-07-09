@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\persistence\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\persistence\util;
 
     interface DAO {
         function insert(mixed $entity) : void;

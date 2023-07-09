@@ -1,9 +1,9 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\mysql;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\mysql;
 
-    use pw2s3\clinicaveterinaria\model\repository\util\DatabaseBuilder;
-    use pw2s3\clinicaveterinaria\model\repository\util\NonDatabaseConnectionFactory;
-    use pw2s3\clinicaveterinaria\model\repository\util\FileNotFoundException;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\util\DatabaseBuilder;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\util\NonDatabaseConnectionFactory;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\util\FileNotFoundException;
     use PDOException;
     use Exception;
 

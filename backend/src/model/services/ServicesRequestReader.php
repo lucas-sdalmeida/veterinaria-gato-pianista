@@ -1,8 +1,8 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\services;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\services;
 
-    use pw2s3\clinicaveterinaria\model\request\JSONRequestReader;
-    use pw2s3\clinicaveterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\JSONRequestReader;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
 
     abstract class ServicesRequestReader {
         private readonly JSONRequestReader $jsonRequestReader;

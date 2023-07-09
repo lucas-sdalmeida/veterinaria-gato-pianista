@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\request;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\request;
 
     enum HTTPMethod : string {
         case GET = "GET";

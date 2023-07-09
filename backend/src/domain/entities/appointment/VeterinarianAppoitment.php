@@ -1,9 +1,9 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\domain\entities\appointment;
+    namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\appointment;
 
-    use pw2s3\clinicaveterinaria\domain\entities\animal\Animal;
-    use pw2s3\clinicaveterinaria\domain\entities\doctor\Doctor;
-    use pw2s3\clinicaveterinaria\domain\entities\appointment\AppointmentType;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\animal\Animal;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\doctor\Doctor;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\appointment\AppointmentType;
     use DateTimeImmutable;
     use InvalidArgumentException;
     use DomainException;

@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\auth;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\auth;
 
     interface TokenEncoder {
         function encode(Token $token) : string;

@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\router;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\router;
 
     use Exception;
 

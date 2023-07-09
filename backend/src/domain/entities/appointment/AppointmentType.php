@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\domain\entities\appointment;
+    namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\appointment;
 
     use InvalidArgumentException;
 

@@ -1,11 +1,11 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\application;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\application;
 
 use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use pw2s3\clinicaveterinaria\model\auth\Token;
-use pw2s3\clinicaveterinaria\model\auth\TokenEncoder;
+use lucassdalmeida\gatopianista\veterinaria\model\auth\Token;
+use lucassdalmeida\gatopianista\veterinaria\model\auth\TokenEncoder;
 use stdClass;
 
     final class ApplicationTokenEncoder implements TokenEncoder {

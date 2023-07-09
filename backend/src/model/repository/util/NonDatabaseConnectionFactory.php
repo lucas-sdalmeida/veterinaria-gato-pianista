@@ -1,7 +1,7 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\util;
 
-    use pw2s3\clinicaveterinaria\persistence\util\ConnectionFactory;
+    use lucassdalmeida\gatopianista\veterinaria\persistence\util\ConnectionFactory;
     use PDO;
 
     final class NonDatabaseConnectionFactory extends ConnectionFactory {

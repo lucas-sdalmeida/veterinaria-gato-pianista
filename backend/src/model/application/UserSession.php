@@ -1,10 +1,10 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\application;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\application;
 
-    use pw2s3\clinicaveterinaria\domain\entities\account\UserAccount;
-    use pw2s3\clinicaveterinaria\domain\entities\account\UserRole;
-    use pw2s3\clinicaveterinaria\model\auth\Session;
-    use pw2s3\clinicaveterinaria\model\auth\Token;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\account\UserAccount;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\account\UserRole;
+    use lucassdalmeida\gatopianista\veterinaria\model\auth\Session;
+    use lucassdalmeida\gatopianista\veterinaria\model\auth\Token;
     use InvalidArgumentException;
 
     final class UserSession extends Session {

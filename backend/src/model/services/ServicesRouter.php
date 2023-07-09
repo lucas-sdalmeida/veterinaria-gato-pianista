@@ -1,14 +1,14 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\services;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\services;
 
-    use pw2s3\clinicaveterinaria\model\request\Request;
-    use pw2s3\clinicaveterinaria\model\request\Response;
-    use pw2s3\clinicaveterinaria\model\router\Route;
-    use pw2s3\clinicaveterinaria\model\router\Router;
-    use pw2s3\clinicaveterinaria\model\services\tutor\TutorService;
-    use pw2s3\clinicaveterinaria\model\application\ErrorRoute;
-    use pw2s3\clinicaveterinaria\model\auth\Session;
-    use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Response;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\Route;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\Router;
+    use lucassdalmeida\gatopianista\veterinaria\model\services\tutor\TutorService;
+    use lucassdalmeida\gatopianista\veterinaria\model\application\ErrorRoute;
+    use lucassdalmeida\gatopianista\veterinaria\model\auth\Session;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\HTTPUtils;
 
     final class ServicesRouter implements Router, Route {
         private const ROUTE_PATH_REGEX = '/veterinaria-gato-pianista\/(account|tutor|animal|doctor|appointment)\/?/';

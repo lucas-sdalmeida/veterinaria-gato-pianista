@@ -1,15 +1,15 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\mysql;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\mysql;
 
-    use pw2s3\clinicaveterinaria\persistence\util\DAO;
-    use pw2s3\clinicaveterinaria\domain\entities\animal\Animal;
-    use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
-    use pw2s3\clinicaveterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
+    use lucassdalmeida\gatopianista\veterinaria\persistence\util\DAO;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\animal\Animal;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\tutor\Tutor;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\mysql\SingletonMySQLConnectionFactory;
     use DateTimeImmutable;
     use InvalidArgumentException;
     use PDOException;
     use Exception;
-use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
+use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
 
     final class MySQLAnimalDAO implements DAO {
         public function insert(mixed $entity) : void {

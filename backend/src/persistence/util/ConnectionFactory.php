@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\persistence\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\persistence\util;
 
     use PDO;
     use PDOException;

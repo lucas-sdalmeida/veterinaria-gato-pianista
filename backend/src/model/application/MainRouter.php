@@ -1,10 +1,10 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\application;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\application;
 
-    use pw2s3\clinicaveterinaria\model\request\Request;
-    use pw2s3\clinicaveterinaria\model\router\Route;
-    use pw2s3\clinicaveterinaria\model\router\Router;
-    use pw2s3\clinicaveterinaria\model\services\ServicesRouter;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\Route;
+    use lucassdalmeida\gatopianista\veterinaria\model\router\Router;
+    use lucassdalmeida\gatopianista\veterinaria\model\services\ServicesRouter;
 
     final class MainRouter implements Router {
         public function findRouteByRequest(Request $request) : Route {

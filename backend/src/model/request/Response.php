@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\request;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\request;
 
     final class Response {
         private int $code;

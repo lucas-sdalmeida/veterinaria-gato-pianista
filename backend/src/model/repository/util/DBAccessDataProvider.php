@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\repository\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\repository\util;
 
     final class DBAccessDataProvider {
         private readonly string $path;

@@ -1,7 +1,7 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\router;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\router;
 
-    use pw2s3\clinicaveterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
 
     interface Router {
         function findRouteByRequest(Request $request) : Route;

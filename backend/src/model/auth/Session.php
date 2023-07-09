@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\auth;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\auth;
 
     abstract class Session {
         private readonly Token $token;

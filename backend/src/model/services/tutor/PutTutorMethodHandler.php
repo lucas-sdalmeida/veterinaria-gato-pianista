@@ -1,14 +1,14 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\model\services\tutor;
+    namespace lucassdalmeida\gatopianista\veterinaria\model\services\tutor;
 
-    use pw2s3\clinicaveterinaria\domain\entities\tutor\Tutor;
-    use pw2s3\clinicaveterinaria\model\repository\mysql\MySQLTutorDAO;
-    use pw2s3\clinicaveterinaria\model\request\HTTPUtils;
-    use pw2s3\clinicaveterinaria\model\request\Request;
-    use pw2s3\clinicaveterinaria\model\request\Response;
-    use pw2s3\clinicaveterinaria\model\services\MethodHandler;
-    use pw2s3\clinicaveterinaria\model\auth\Session;
-    use pw2s3\clinicaveterinaria\model\application\UserSession;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\tutor\Tutor;
+    use lucassdalmeida\gatopianista\veterinaria\model\repository\mysql\MySQLTutorDAO;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\HTTPUtils;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Request;
+    use lucassdalmeida\gatopianista\veterinaria\model\request\Response;
+    use lucassdalmeida\gatopianista\veterinaria\model\services\MethodHandler;
+    use lucassdalmeida\gatopianista\veterinaria\model\auth\Session;
+    use lucassdalmeida\gatopianista\veterinaria\model\application\UserSession;
     use DateTimeImmutable;
     use Exception;
 
