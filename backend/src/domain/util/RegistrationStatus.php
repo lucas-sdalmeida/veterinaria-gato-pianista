@@ -1,5 +1,5 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\domain\util;
+    namespace lucassdalmeida\gatopianista\veterinaria\domain\util;
 
     enum RegistrationStatus : string {
         case ACTIVE = "Active";

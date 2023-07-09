@@ -1,13 +1,14 @@
 <?php
-    namespace pw2s3\clinicaveterinaria\domain\entities\account;
+    namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\account;
     
-    use pw2s3\clinicaveterinaria\domain\util\RegistrationStatus;
+    use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
+    use InvalidArgumentException;
 
     class UserAccount {
         private ?int $id;
         private readonly string $username;
-        private readonly string $password;
+        private string $password;
         private readonly UserRole $role;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
@@ -23,8 +24,12 @@
             $this->id = $id;
         }
 
-        public final function hasGreaterOrEqualRoleThan(UserAccount|UserRole $other) : bool {
-            return $this->role->compareAccessLevel($other instanceof UserAccount ? $other->role : $other) >= 0;
+        public final function hasAccessOver(UserRole $needed) : bool {
+            return $this->role->compareAccessLevel($needed) >= 0;
+        }
+
+        public final function isActiveAccount() : bool {
+            return $this->status == RegistrationStatus::ACTIVE;
         }
 
         public final function getId() : ?int {
@@ -37,6 +42,12 @@
 
         public final function getPassword() : string {
             return $this->password;
+        }
+
+        public final function setPassword(string $password) : void {
+            if (empty($password))
+                throw new InvalidArgumentException("The password cannot be null!");
+            $this->password = $password;
         }
 
         public final function getRole() : UserRole {
