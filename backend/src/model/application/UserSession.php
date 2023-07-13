@@ -18,7 +18,7 @@
         public function hasEnoughtAccessLevel(mixed $requiredAccessLevel): bool {
             if (!$requiredAccessLevel instanceof UserRole)
                 throw new InvalidArgumentException("The required access level must be a UserRole!");
-            return $this->account->hasGreaterOrEqualRoleThan($requiredAccessLevel);
+            return $this->account->hasAccessOver($requiredAccessLevel);
         }
 
         public function getAccount() : UserAccount {
