@@ -31,6 +31,14 @@
             return $this->status == RegistrationStatus::ACTIVE;
         }
 
+        public final function activateAccount() : void {
+            $this->status = RegistrationStatus::ACTIVE;
+        }
+
+        public final function inactivateAccount() : void {
+            $this->status = RegistrationStatus::INACTIVE;
+        }
+
         public final function getId() : int {
             return $this->id;
         }
