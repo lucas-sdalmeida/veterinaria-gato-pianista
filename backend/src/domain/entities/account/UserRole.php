@@ -1,7 +1,7 @@
 <?php
     namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\account;
 
-use InvalidArgumentException;
+    use InvalidArgumentException;
 
     enum UserRole : string {
         case TUTOR = "Tutor";
@@ -12,9 +12,7 @@ use InvalidArgumentException;
         public static function fromString(string $str) {
             foreach(static::cases() as $role)
                 if (strtolower($role->value) === strtolower($str)) return $role;
-            throw new InvalidArgumentException(
-                "The specified string does not match with any case!"
-            );
+            throw new InvalidArgumentException("The specified string does not match with any case!");
         }
 
         public final function compareAccessLevel(UserRole $other) : int {

@@ -2,37 +2,36 @@
     namespace lucassdalmeida\gatopianista\veterinaria\domain\entities\account;
     
     use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
+    use lucassdalmeida\gatopianista\veterinaria\domain\entities\account\password\Password;
     use DateTimeImmutable;
-    use InvalidArgumentException;
 
     class UserAccount {
-        private ?int $id;
+        private readonly int $id;
         private readonly string $username;
-        private string $password;
+        private Password $password;
         private readonly UserRole $role;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
 
-        public function __construct(string $username, string $password, UserRole $role,
-                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
-                                    ?int $id=null) {
+        public function __construct(int $id, string $username, Password $password, UserRole $role,
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
+            $this->id = $id;
             $this->username = $username;
             $this->password = $password;
             $this->role = $role;
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
             $this->status = $status ?? RegistrationStatus::ACTIVE;
-            $this->id = $id;
         }
 
         public final function hasAccessOver(UserRole $needed) : bool {
-            return $this->role->compareAccessLevel($needed) >= 0;
+            return $this->isActiveAccount() && $this->role->compareAccessLevel($needed) >= 0;
         }
 
         public final function isActiveAccount() : bool {
             return $this->status == RegistrationStatus::ACTIVE;
         }
 
-        public final function getId() : ?int {
+        public final function getId() : int {
             return $this->id;
         }
 
@@ -40,13 +39,11 @@
             return $this->username;
         }
 
-        public final function getPassword() : string {
+        public final function getPassword() : Password {
             return $this->password;
         }
 
-        public final function setPassword(string $password) : void {
-            if (empty($password))
-                throw new InvalidArgumentException("The password cannot be null!");
+        public final function setPassword(Password $password) : void {
             $this->password = $password;
         }
 
@@ -60,10 +57,6 @@
 
         public final function getStatus() : RegistrationStatus {
             return $this->status;
-        }
-
-        public final function setStatus(RegistrationStatus $status) : void {
-            $this->status = $status;
         }
     }
 ?>
