@@ -9,31 +9,37 @@
     use DomainException;
 
     class VeterinarianAppointment {
-        private ?int $id;
+        private readonly int $id;
         private readonly Animal $animal;
         private readonly Doctor $doctor;
         private readonly AppointmentType $type;
-        private ?string $reason;
+        private ?string $animalHealthCondition;
         private ?string $action;
-        private DateTimeImmutable $startDateTime;
+        private readonly DateTimeImmutable $scheduleDateTime;
+        private ?DateTimeImmutable $startDateTime;
         private ?DateTimeImmutable $endDateTime;
 
-        public function __construct(Animal $animal, Doctor $doctor, AppointmentType $type,
-                                    ?DateTimeImmutable $startDateTime=null, ?string $reason,
-                                    ?DateTimeImmutable $endDateTime=null,
-                                    ?string $action=null, ?int $id=null) {
+        public function __construct(int $id, Animal $animal, Doctor $doctor, AppointmentType $type, 
+                                    DateTimeImmutable $scheduleDateTime , ?string $animalHealthCondition=null, 
+                                    ?string $action=null, ?DateTimeImmutable $startDateTime=null, 
+                                    ?DateTimeImmutable $endDateTime=null) {
+            $this->id = $id;
             $this->animal = $animal;
             $this->doctor = $doctor;
             $this->type = $type;
-            $this->reason = $reason;
-            $this->startDateTime = $startDateTime ?? new DateTimeImmutable();
-            $this->endDateTime = null;
-            
-            if ($endDateTime !== null)
-                $this->setEndDateTime($endDateTime);
-
+            $this->scheduleDateTime = $scheduleDateTime;
+            $this->animalHealthCondition;
             $this->action = $action;
-            $this->id = $id;
+            $this->startDateTime = $startDateTime;
+            $this->endDateTime = $endDateTime;
+        }
+
+        public final function hasStarted() : bool {
+            return $this->startDateTime != null;
+        }
+
+        public final function hasEnded() : bool {
+            return $this->endDateTime != null;
         }
 
         public final function getId() : ?int {
@@ -52,12 +58,12 @@
             return $this->type;
         }
 
-        public final function getReason() : string {
-            return $this->reason;
+        public final function getAnimalHealthCondition() : string {
+            return $this->animalHealthCondition;
         }
 
-        public final function setReason(string $reason) : void {
-            $this->reason = $reason;
+        public final function setAnimalHealthCondition(string $animalHealthCondition) : void {
+            $this->animalHealthCondition = $animalHealthCondition;
         }
 
         public final function getAction() : ?string {
@@ -66,6 +72,10 @@
 
         public final function setAction(string $action) : void {
             $this->action = $action;
+        }
+
+        public final function getScheduleDateTime() : DateTimeImmutable {
+            return $this->scheduleDateTime;
         }
 
         public final function getStartDateTime() : DateTimeImmutable {
@@ -92,6 +102,12 @@
                 );
             
             $this->endDateTime = $endDateTime;
+        }
+
+        public function __toString() {
+            return "VeterianrianAppointment(" . $this->id . ", " . $this->animal . ", " . $this->doctor . ", "  .
+                    $this->type->value . ", " . $this->scheduleDateTime . ", ". $this->animalHealthCondition . ", "  . 
+                    $this->action . ", " . $this->startDateTime . $this->endDateTime . ")";
         }
     }
 ?>
