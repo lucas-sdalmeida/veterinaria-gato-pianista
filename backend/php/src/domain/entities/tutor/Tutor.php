@@ -7,36 +7,40 @@
     use DomainException;
 
     class Tutor {
-        private ?int $id;
-        private string $name;
+        private int $id;
+        private readonly string $name;
         private readonly CPF $cpf;
         private string $phoneNumber;
         private DateTimeImmutable $dateOfBirth;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
 
-        public function __construct(string $name, string|CPF $cpf, string $phoneNumber, DateTimeImmutable $dateOfBirth, 
-                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
-                                    ?int $id=null) {
+        public function __construct(int $id, string $name, string|CPF $cpf, string $phoneNumber, 
+                                    DateTimeImmutable $dateOfBirth, ?DateTimeImmutable $registrationDate=null, 
+                                    ?RegistrationStatus $status=null) {
+            $this->id = $id;
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->phoneNumber = $phoneNumber;
             $this->setDateOfBirth($dateOfBirth);
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
             $this->status = $status ?? RegistrationStatus::ACTIVE;
-            $this->id = $id;
         }
 
-        public final function getId() : ?int {
+        public final function activateTutor() : void {
+            $this->status = RegistrationStatus::ACTIVE;
+        }
+
+        public final function inactivateTutor() : void {
+            $this->status = RegistrationStatus::INACTIVE;
+        }
+
+        public final function getId() : int {
             return $this->id;
         }
 
         public final function getName() : string {
             return $this->name;
-        }
-
-        public final function setName(string $name) : void {
-            $this->name = $name;
         }
 
         public final function getCPF() : CPF {
@@ -84,12 +88,8 @@
             return $this->status;
         }
 
-        public final function setStatus(RegistrationStatus $status) : void {
-            $this->status = $status;
-        }
-
         public function __toString() : string {
-            return $this->name . ", " . $this->getAge() . ", " . $this->cpf;
+            return "Tutor(" . $this->name . ", age: " . $this->getAge() . ", " . $this->cpf . ")";
         }
     }
 ?>
