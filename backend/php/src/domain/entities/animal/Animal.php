@@ -4,21 +4,23 @@
     use lucassdalmeida\gatopianista\veterinaria\domain\entities\tutor\Tutor;
     use lucassdalmeida\gatopianista\veterinaria\domain\util\RegistrationStatus;
     use DateTimeImmutable;
-    use DomainException;
 
     class Animal {
-        private ?int $id = null;
-        private string $name;
-        private string $specie;
-        private ?string $race;
+        private int $id;
+        private readonly string $name;
+        private readonly string $specie;
+        private readonly ?string $race;
+        private float $weight;
+        private string $healthCondition;
+        private readonly DateTimeImmutable $dateOfBirth;
         private readonly Tutor $tutor;
-        private DateTimeImmutable $dateOfBirth;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
 
-        public function __construct(string $name, string $specie, Tutor $tutor, DateTimeImmutable $dateOfBirth, 
+        public function __construct(int $id, string $name, string $specie, Tutor $tutor, DateTimeImmutable $dateOfBirth, 
                                     ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
-                                    ?string $race=null, ?int $id = null) {
+                                    ?string $race=null) {
+            $this->id = $id;
             $this->name = $name;
             $this->specie = $specie;
             $this->dateOfBirth = $dateOfBirth;
@@ -26,10 +28,16 @@
             $this->tutor = $tutor;
             $this->registrationDate = $registrationDate ?? new DateTimeImmutable();
             $this->status = $status ?? RegistrationStatus::ACTIVE;
-            $this->id = null;
         }
 
-        public final function getId() : ?int {
+        public final function getAge() : int {
+            $today = new DateTimeImmutable();
+            $intervalBetweenDateOfBirthAndToday = $today->diff($this->dateOfBirth);
+
+            return $intervalBetweenDateOfBirthAndToday->y;
+        }
+
+        public final function getId() : int {
             return $this->id;
         }
 
@@ -41,40 +49,24 @@
             return $this->specie;
         }
 
-        public final function setSpecie(string $specie) : void {
-            $this->specie = $specie;
-        }
-
         public final function getRace() : ?string {
             return $this->race;
         }
 
-        public final function setRace(string $race) : void {
-            $this->race = $race;
+        public final function getWeight() : float {
+            return $this->weight;
         }
 
-        public final function getTutor() : tutor {
+        public final function getHealthCondition() : string {
+            return $this->healthCondition;
+        }
+
+        public final function getTutor() : Tutor {
             return $this->tutor;
-        }
-
-        public final function getAge() : int {
-            $today = new DateTimeImmutable();
-            $intervalBetweenDateOfBirthAndToday = $today->diff($this->dateOfBirth);
-
-            return $intervalBetweenDateOfBirthAndToday->y;
         }
 
         public final function getDateOfBirth() : DateTimeImmutable{
             return $this->dateOfBirth;
-        }
-
-        public final function setDateOfBirth(DateTimeImmutable $dateOfBirth) : void {
-            $today = new DateTimeImmutable();
-
-            if ($dateOfBirth > $today)
-                throw new DomainException("It is impossible for a animal to be born after today!");
-
-            $this->dateOfBirth = $dateOfBirth;
         }
 
         public final function getRegistryDate() : DateTimeImmutable {
@@ -90,8 +82,8 @@
         }
 
         public function __toString() : string {
-            return "Animal: " . $this->name . ", " . $this->specie . ", " .
-                    $this->race . ", age: " . $this->getAge();
+            return "Animal( " . $this->name . ", " . $this->specie . ", " .
+                    $this->race . ", age: " . $this->getAge() . ")";
         }
     }
 ?>
