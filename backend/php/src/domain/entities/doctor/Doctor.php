@@ -8,20 +8,20 @@
     use DomainException;
 
     class Doctor {
-        private ?int $id;
-        private  string $name;
+        private readonly int $id;
+        private readonly string $name;
         private readonly CPF $cpf;
         private readonly CRMV $crmv;
         private string $phoneNumber;
-        private DateTimeImmutable $dateOfBirth;
-        private DateTimeImmutable $hiringDate;
+        private readonly DateTimeImmutable $dateOfBirth;
+        private readonly DateTimeImmutable $hiringDate;
         private readonly DateTimeImmutable $registrationDate;
         private RegistrationStatus $status;
 
-        public function __construct(string $name, string|CPF $cpf, string|CRMV $crmv,string $phoneNumber, 
+        public function __construct(int $id, string $name, string|CPF $cpf, string|CRMV $crmv,string $phoneNumber, 
                                     DateTimeImmutable $dateOfBirth, DateTimeImmutable $hiringDate, 
-                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null,
-                                    ?int $id=null) {
+                                    ?DateTimeImmutable $registrationDate=null, ?RegistrationStatus $status=null) {
+            $this->id = $id;
             $this->name = $name;
             $this->cpf = is_string($cpf) ? CPF::of($cpf) : $cpf;
             $this->crmv = is_string($cpf) ? CRMV::of($crmv) : $crmv;
@@ -30,7 +30,21 @@
             $this->hiringDate = $hiringDate;
             $this->$registrationDate = $registrationDate ?? new DateTimeImmutable();
             $this->status = $status ?? RegistrationStatus::ACTIVE;
-            $this->id = $id;
+        }
+
+        public final function getAge() : int {
+            $today = new DateTimeImmutable();
+            $intervalBetweenDateOfBirthAndToday = $today->diff($this->dateOfBirth);
+
+            return $intervalBetweenDateOfBirthAndToday->y;
+        }
+
+        public final function activateDoctor() : void {
+            $this->status = RegistrationStatus::ACTIVE;
+        }
+
+        public final function inactivateDoctor() : void {
+            $this->status = RegistrationStatus::INACTIVE;
         }
 
         public final function getId() : int {
@@ -59,13 +73,6 @@
 
         public final function setPhoneNumber(string $phoneNumber) : void {
             $this->phoneNumber = $phoneNumber;
-        }
-
-        public final function getAge() : int {
-            $today = new DateTimeImmutable();
-            $intervalBetweenDateOfBirthAndToday = $today->diff($this->dateOfBirth);
-
-            return $intervalBetweenDateOfBirthAndToday->y;
         }
 
         public final function getDateOfBirth() : DateTimeImmutable {
@@ -105,10 +112,6 @@
 
         public final function getStatus() : RegistrationStatus {
             return $this->status;
-        }
-
-        public final function setStatus(RegistrationStatus $status) : void {
-            $this->status = $status;
         }
 
         public function __toString() : string {
